@@ -1,0 +1,3252 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OPTIMIZER ULTRA</title>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Noto+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0f1117;
+    --surface: #1a1d27;
+    --surface2: #22263a;
+    --accent: #4fc3f7;
+    --accent2: #0288d1;
+    --text: #e8eaf6;
+    --text2: #9fa8da;
+    --border: #2e3352;
+    --success: #69f0ae;
+    --radius: 14px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Noto Sans', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  header {
+    width: 100%;
+    background: linear-gradient(135deg, #0d1b2a, #1a2744);
+    padding: 20px 24px 16px;
+    border-bottom: 2px solid var(--accent2);
+    text-align: center;
+  }
+
+  header h1 {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  header p {
+    font-size: 0.75rem;
+    color: var(--text2);
+    margin-top: 4px;
+    letter-spacing: 1px;
+  }
+
+  .container {
+    width: 100%;
+    max-width: 480px;
+    padding: 20px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .screen { display: none; flex-direction: column; gap: 14px; }
+  .screen.active { display: flex; }
+
+  .screen-title {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text2);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    text-align: center;
+    padding: 8px 0;
+  }
+
+  /* PANTALLA 1 */
+  .btn-linea {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 22px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+  }
+
+  .btn-linea:active, .btn-linea:hover {
+    border-color: var(--accent);
+    background: var(--surface2);
+    transform: scale(0.98);
+  }
+
+  .btn-linea .linea-info h2 {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--accent);
+  }
+
+  .btn-linea .linea-info p {
+    font-size: 0.75rem;
+    color: var(--text2);
+    margin-top: 2px;
+  }
+
+  .btn-linea .arrow { font-size: 1.4rem; color: var(--accent2); }
+
+  .section-label {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--text2);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 6px 4px 2px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 2px;
+  }
+
+  .badge-soon {
+    background: #2e3352;
+    color: var(--text2);
+    font-size: 0.65rem;
+    padding: 3px 8px;
+    border-radius: 20px;
+    letter-spacing: 1px;
+  }
+
+  /* PANTALLA 2 */
+  .btn-hojas {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .btn-hojas:active, .btn-hojas:hover {
+    border-color: var(--accent);
+    background: var(--surface2);
+  }
+
+  .hojas-icon {
+    width: 48px;
+    height: 48px;
+    background: var(--surface2);
+    border: 1.5px solid var(--accent2);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--accent);
+    flex-shrink: 0;
+  }
+
+  .hojas-text h3 {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .hojas-text p {
+    font-size: 0.72rem;
+    color: var(--text2);
+    margin-top: 2px;
+  }
+
+  /* PANTALLA 3 */
+  .input-group { display: flex; flex-direction: column; gap: 6px; }
+
+  .input-group label {
+    font-size: 0.75rem;
+    color: var(--text2);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .input-group input {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+    color: var(--text);
+    font-size: 1.1rem;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 600;
+    width: 100%;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .input-group input:focus { border-color: var(--accent); }
+  .input-group input::placeholder { color: #3a3f5c; }
+
+  .btn-calcular {
+    background: linear-gradient(135deg, var(--accent2), #01579b);
+    border: none;
+    border-radius: var(--radius);
+    padding: 16px;
+    color: white;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    width: 100%;
+    transition: opacity 0.2s, transform 0.1s;
+  }
+
+  .btn-calcular:active { opacity: 0.85; transform: scale(0.98); }
+
+  /* RESULTADOS */
+  .resultados {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px;
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .resultados.visible { display: flex; }
+
+  .resultados-title {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--success);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 10px;
+    margin-bottom: 4px;
+  }
+
+  .resultado-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 12px;
+    background: var(--surface2);
+    border-radius: 8px;
+    border-left: 3px solid var(--accent2);
+  }
+
+  .resultado-item .nombre { font-size: 0.85rem; color: var(--text2); }
+
+  .resultado-item .medida {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--accent);
+  }
+
+  .resultado-item .cantidad {
+    font-size: 0.7rem;
+    color: #5c6bc0;
+    margin-top: 2px;
+  }
+
+  .resultado-item .right { text-align: right; }
+
+  /* BOTONES */
+  .btn-descargar {
+    background: linear-gradient(135deg, #1b5e20, #2e7d32);
+    border: none;
+    border-radius: var(--radius);
+    padding: 16px;
+    color: white;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    width: 100%;
+    transition: opacity 0.2s, transform 0.1s;
+  }
+
+  .btn-descargar:active { opacity: 0.85; transform: scale(0.98); }
+
+  .btn-back {
+    background: transparent;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    padding: 12px;
+    color: var(--text2);
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    cursor: pointer;
+    width: 100%;
+    transition: all 0.2s;
+  }
+
+  .btn-back:active { border-color: var(--accent2); color: var(--accent); }
+
+  .info-bar {
+    background: var(--surface2);
+    border-radius: 10px;
+    padding: 10px 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .info-bar span { font-size: 0.75rem; color: var(--text2); }
+
+  .info-bar strong {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.95rem;
+    color: var(--accent);
+  }
+
+  .error-msg {
+    background: #2d1515;
+    border: 1px solid #c62828;
+    border-radius: 8px;
+    padding: 10px 14px;
+    color: #ef9a9a;
+    font-size: 0.8rem;
+    display: none;
+  }
+
+  .error-msg.visible { display: block; }
+
+  /* ===================== PANTALLA 4 - PRECIO ===================== */
+
+  .precio-card {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+  }
+
+  .precio-card:hover { border-color: var(--accent); background: var(--surface2); }
+
+  .precio-card.selected {
+    border-color: var(--success);
+    background: #0d2018;
+  }
+
+  .precio-card .pc-left { display: flex; flex-direction: column; gap: 2px; }
+
+  .precio-card .pc-label {
+    font-size: 0.72rem;
+    color: var(--text2);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .precio-card .pc-valor {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--success);
+  }
+
+  .precio-card .pc-check {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    border: 2px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    color: transparent;
+    transition: all 0.2s;
+    flex-shrink: 0;
+  }
+
+  .precio-card.selected .pc-check {
+    background: var(--success);
+    border-color: var(--success);
+    color: #0d1117;
+  }
+
+  .divider-label {
+    text-align: center;
+    font-size: 0.7rem;
+    color: var(--text2);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    position: relative;
+  }
+
+  .divider-label::before, .divider-label::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 35%;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .divider-label::before { left: 0; }
+  .divider-label::after { right: 0; }
+
+  .precio-custom-wrap {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    transition: border-color 0.2s;
+  }
+
+  .precio-custom-wrap.selected { border-color: var(--success); background: #0d2018; }
+
+  .precio-custom-wrap label {
+    font-size: 0.72rem;
+    color: var(--text2);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .precio-custom-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .precio-custom-row input {
+    background: var(--surface2);
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 14px;
+    color: var(--text);
+    font-size: 1.1rem;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 600;
+    flex: 1;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .precio-custom-row input:focus { border-color: var(--accent); }
+  .precio-custom-row input::placeholder { color: #3a3f5c; }
+
+  .precio-custom-row .use-btn {
+    background: var(--surface2);
+    border: 1.5px solid var(--accent2);
+    border-radius: 8px;
+    padding: 12px 14px;
+    color: var(--accent);
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s;
+  }
+
+  .precio-custom-row .use-btn:active { background: var(--accent2); color: white; }
+
+  /* TARJETA DE DESCARGA (preview en pantalla 4) */
+  .preview-card {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .preview-card .preview-title {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--text2);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 8px;
+    margin-bottom: 2px;
+  }
+
+  .preview-precio-final {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--success);
+    text-align: center;
+    padding: 8px 0 4px;
+  }
+
+  .preview-precio-label {
+    font-size: 0.7rem;
+    color: var(--text2);
+    text-align: center;
+    letter-spacing: 1px;
+    margin-top: -6px;
+    margin-bottom: 4px;
+  }
+
+  /* IMAGEN PARA DESCARGAR */
+  #imagenDescarga {
+    position: fixed;
+    left: -9999px;
+    top: 0;
+    width: 420px;
+    background: #1a1d27;
+    padding: 24px 20px;
+    font-family: 'Noto Sans', sans-serif;
+    color: #e8eaf6;
+  }
+
+  #imagenDescarga .img-header {
+    text-align: center;
+    margin-bottom: 20px;
+    padding-bottom: 14px;
+    border-bottom: 2px solid #0288d1;
+  }
+
+  #imagenDescarga .img-header h2 {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #4fc3f7;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  #imagenDescarga .img-header p {
+    font-size: 0.72rem;
+    color: #9fa8da;
+    margin-top: 4px;
+    letter-spacing: 1px;
+  }
+
+  #imagenDescarga .img-section-title {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #69f0ae;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    border-bottom: 1px solid #2e3352;
+    padding-bottom: 8px;
+    margin-bottom: 10px;
+  }
+
+  #imagenDescarga .img-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 9px 12px;
+    background: #22263a;
+    border-radius: 8px;
+    border-left: 3px solid #0288d1;
+    margin-bottom: 6px;
+  }
+
+  #imagenDescarga .img-row .ir-nombre {
+    font-size: 0.82rem;
+    color: #9fa8da;
+  }
+
+  #imagenDescarga .img-row .ir-qty {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #4fc3f7;
+  }
+
+  #imagenDescarga .img-precio-box {
+    background: #0d2018;
+    border: 1.5px solid #69f0ae;
+    border-radius: 12px;
+    padding: 16px;
+    text-align: center;
+    margin-top: 14px;
+  }
+
+  #imagenDescarga .img-precio-label {
+    font-size: 0.7rem;
+    color: #9fa8da;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  #imagenDescarga .img-precio-valor {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #69f0ae;
+  }
+
+  #imagenDescarga .img-footer {
+    text-align: center;
+    margin-top: 18px;
+    font-size: 0.65rem;
+    color: #3a3f5c;
+    letter-spacing: 1px;
+  }
+
+  /* ===================== OPTIMIZADOR DE BARRAS ===================== */
+  .btn-optimizador {
+    background: linear-gradient(135deg, #1a0a2e, #2d1457);
+    border: 1.5px solid #7b1fa2;
+    border-radius: var(--radius);
+    padding: 18px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    width: 100%;
+    transition: all 0.2s;
+    color: #ce93d8;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+  }
+
+  .btn-optimizador:active {
+    border-color: #ce93d8;
+    transform: scale(0.98);
+  }
+
+  .btn-optimizador .arrow { font-size: 1.4rem; }
+
+  .optimizador-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .opt-form {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .opt-form-row {
+    display: flex;
+    gap: 10px;
+  }
+
+  .opt-form select {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 12px;
+    color: var(--text);
+    font-size: 1rem;
+    font-family: 'Noto Sans', sans-serif;
+    width: 100%;
+    outline: none;
+    transition: border-color 0.2s;
+    appearance: none;
+  }
+
+  .opt-form select:focus { border-color: var(--accent); }
+
+  .ventana-tag {
+    background: var(--surface2);
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  .ventana-tag .vt-info { display: flex; flex-direction: column; gap: 2px; }
+
+  .ventana-tag .vt-dims {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--accent);
+  }
+
+  .ventana-tag .vt-sub {
+    font-size: 0.7rem;
+    color: var(--text2);
+  }
+
+  .ventana-tag .vt-del {
+    background: #2d1515;
+    border: 1px solid #c62828;
+    border-radius: 6px;
+    color: #ef9a9a;
+    font-size: 0.75rem;
+    padding: 4px 8px;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+
+  .opt-resultado {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .opt-barra-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 12px;
+    background: var(--surface2);
+    border-radius: 8px;
+    border-left: 3px solid #7b1fa2;
+  }
+
+  .opt-barra-item .ob-nombre { font-size: 0.82rem; color: var(--text2); }
+
+  .opt-barra-item .ob-right { text-align: right; }
+
+  .opt-barra-item .ob-barras {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #ce93d8;
+  }
+
+  .opt-barra-item .ob-desperdicio {
+    font-size: 0.68rem;
+    color: #5c6bc0;
+    margin-top: 1px;
+  }
+
+  .btn-secondary {
+    background: transparent;
+    border: 1.5px solid #c62828;
+    border-radius: 10px;
+    padding: 12px;
+    color: #ef9a9a;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    cursor: pointer;
+    width: 100%;
+    transition: all 0.2s;
+  }
+
+  .btn-secondary:active { background: #2d1515; }
+
+  .dias-btn {
+    background: #22263a;
+    border: 1.5px solid #2e3352;
+    border-radius: 8px;
+    padding: 8px 14px;
+    color: #9fa8da;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .dias-btn.dias-sel {
+    background: #0288d1;
+    border-color: #4fc3f7;
+    color: white;
+  }
+
+  .device-card {
+    background: #22263a;
+    border: 1.5px solid #2e3352;
+    border-radius: 10px;
+    padding: 12px;
+  }
+
+  .device-card.activo { border-left: 3px solid #69f0ae; }
+  .device-card.vencido { border-left: 3px solid #ef9a9a; }
+  .device-card.inactivo { border-left: 3px solid #9fa8da; }
+
+  .btn-agregar-ventana {
+    background: linear-gradient(135deg, #0288d1, #01579b);
+    border: none;
+    border-radius: 10px;
+    padding: 14px;
+    color: white;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    width: 100%;
+    margin-bottom: 8px;
+  }
+
+  .btn-agregar-ventana:active { opacity: 0.85; }
+
+  .btn-optimizar-ahora {
+    background: linear-gradient(135deg, #00897b, #004d40);
+    border: none;
+    border-radius: 10px;
+    padding: 16px;
+    color: white;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    width: 100%;
+    margin-bottom: 6px;
+  }
+
+  .btn-optimizar-ahora:active { opacity: 0.85; }
+
+  .btn-limpiar-opt {
+    background: transparent;
+    border: 1.5px solid #c62828;
+    border-radius: 10px;
+    padding: 11px;
+    color: #ef9a9a;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    cursor: pointer;
+    width: 100%;
+    margin-bottom: 8px;
+  }
+
+  .btn-limpiar-opt:active { background: #2d1515; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>⚡ OPTIMIZER ULTRA</h1>
+  <p>Calculadora de materiales</p>
+</header>
+
+<!-- PANTALLA LOGIN -->
+<div id="screenLogin" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:24px;background:#0f1117;">
+  <div style="width:100%;max-width:420px;">
+
+    <div style="text-align:center;margin-bottom:32px;">
+      <div style="font-size:2.5rem;margin-bottom:8px;">⚡</div>
+      <h1 style="font-family:'Rajdhani',sans-serif;font-size:2rem;font-weight:700;color:#4fc3f7;letter-spacing:4px;margin:0;">OPTIMIZER ULTRA</h1>
+      <p style="font-size:0.8rem;color:#9fa8da;letter-spacing:2px;margin-top:6px;">CALCULADORA DE MATERIALES</p>
+    </div>
+
+    <div id="loginVerificando" style="text-align:center;padding:32px;">
+      <div style="font-size:2rem;margin-bottom:12px;">🔄</div>
+      <p style="font-family:'Rajdhani',sans-serif;color:#9fa8da;letter-spacing:1px;">Verificando dispositivo...</p>
+    </div>
+
+    <div id="loginNoActivado" style="display:none;">
+      <div style="background:#1a1d27;border:1.5px solid #2e3352;border-radius:16px;padding:24px;text-align:center;">
+        <div style="font-size:2rem;margin-bottom:12px;">🔒</div>
+        <p style="font-family:'Rajdhani',sans-serif;font-size:1rem;font-weight:700;color:#e8eaf6;letter-spacing:1px;margin-bottom:8px;">DISPOSITIVO NO ACTIVADO</p>
+        <p style="font-size:0.8rem;color:#9fa8da;line-height:1.6;margin-bottom:16px;">Envía tu ID al administrador para activar tu acceso.</p>
+        <div style="background:#22263a;border:1.5px solid #2e3352;border-radius:10px;padding:14px;margin-bottom:12px;">
+          <p style="font-size:0.65rem;color:#9fa8da;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;">Tu ID de dispositivo</p>
+          <p id="loginDeviceIdText" style="font-family:'Rajdhani',sans-serif;font-size:1rem;font-weight:700;color:#4fc3f7;letter-spacing:2px;word-break:break-all;"></p>
+        </div>
+        <button onclick="copiarDeviceId()" style="background:linear-gradient(135deg,#0288d1,#01579b);border:none;border-radius:10px;padding:14px;color:white;font-family:'Rajdhani',sans-serif;font-size:0.95rem;font-weight:700;letter-spacing:1.5px;cursor:pointer;width:100%;margin-bottom:8px;">📋 Copiar ID</button>
+        <button onclick="solicitarActivacion()" style="background:linear-gradient(135deg,#2e7d32,#1b5e20);border:none;border-radius:10px;padding:14px;color:white;font-family:'Rajdhani',sans-serif;font-size:0.95rem;font-weight:700;letter-spacing:1.5px;cursor:pointer;width:100%;margin-bottom:8px;">💬 Solicitar activación</button>
+        <button onclick="verificarActivacion()" style="background:transparent;border:1.5px solid #2e3352;border-radius:10px;padding:12px;color:#9fa8da;font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:600;cursor:pointer;width:100%;">🔄 Ya me activaron, verificar</button>
+      </div>
+    </div>
+
+    <div id="loginVencido" style="display:none;">
+      <div style="background:#1a1d27;border:1.5px solid #c62828;border-radius:16px;padding:24px;text-align:center;">
+        <div style="font-size:2rem;margin-bottom:12px;">⏰</div>
+        <p style="font-family:'Rajdhani',sans-serif;font-size:1rem;font-weight:700;color:#ef9a9a;letter-spacing:1px;margin-bottom:8px;">ACCESO VENCIDO</p>
+        <p style="font-size:0.8rem;color:#9fa8da;line-height:1.6;margin-bottom:16px;">Tu período de acceso ha terminado. Contacta al administrador para renovar.</p>
+        <div style="background:#22263a;border:1px solid #2e3352;border-radius:8px;padding:10px;margin-bottom:12px;">
+          <p style="font-size:0.65rem;color:#9fa8da;letter-spacing:2px;margin-bottom:4px;">ID de dispositivo</p>
+          <p id="loginDeviceIdVencido" style="font-family:'Rajdhani',sans-serif;font-size:0.9rem;color:#4fc3f7;word-break:break-all;"></p>
+        </div>
+        <button onclick="copiarDeviceId()" style="background:linear-gradient(135deg,#0288d1,#01579b);border:none;border-radius:10px;padding:14px;color:white;font-family:'Rajdhani',sans-serif;font-size:0.95rem;font-weight:700;letter-spacing:1.5px;cursor:pointer;width:100%;margin-bottom:8px;">📋 Copiar ID</button>
+        <button onclick="solicitarActivacion()" style="background:linear-gradient(135deg,#2e7d32,#1b5e20);border:none;border-radius:10px;padding:14px;color:white;font-family:'Rajdhani',sans-serif;font-size:0.95rem;font-weight:700;letter-spacing:1.5px;cursor:pointer;width:100%;margin-bottom:8px;">💬 Solicitar renovación</button>
+        <button onclick="verificarActivacion()" style="background:transparent;border:1.5px solid #2e3352;border-radius:10px;padding:12px;color:#9fa8da;font-family:'Rajdhani',sans-serif;font-size:0.85rem;cursor:pointer;width:100%;">🔄 Verificar renovación</button>
+      </div>
+    </div>
+
+    <div id="loginError" style="display:none;">
+      <div style="background:#1a1d27;border:1.5px solid #f57f17;border-radius:16px;padding:24px;text-align:center;">
+        <div style="font-size:2rem;margin-bottom:12px;">⚠️</div>
+        <p style="font-family:'Rajdhani',sans-serif;font-size:1rem;font-weight:700;color:#ffb74d;letter-spacing:1px;margin-bottom:8px;">SIN CONEXIÓN</p>
+        <p style="font-size:0.8rem;color:#9fa8da;line-height:1.6;margin-bottom:16px;">No se pudo verificar el acceso. Revisá tu conexión a internet.</p>
+        <button onclick="verificarActivacion()" style="background:linear-gradient(135deg,#f57f17,#e65100);border:none;border-radius:10px;padding:14px;color:white;font-family:'Rajdhani',sans-serif;font-size:0.95rem;font-weight:700;letter-spacing:1.5px;cursor:pointer;width:100%;">🔄 Reintentar</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- PANTALLA 1: SELECCIÓN DE LÍNEA -->
+  <div class="screen active" id="screen1">
+
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
+      <p class="section-label" style="margin-bottom:0;">🪟 Ventanas</p>
+      <div style="display:flex;gap:6px;">
+        <button onclick="goToScreenHistorial()" style="display:flex;align-items:center;gap:6px;background:#22263a;border:1.5px solid #2e3352;border-radius:20px;padding:7px 14px;color:#e8eaf6;font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:700;letter-spacing:1px;cursor:pointer;">
+          📋 <span>Historial</span>
+        </button>
+        <button onclick="goToScreenPerfil()" id="btnPerfil" style="display:flex;align-items:center;gap:8px;background:#22263a;border:1.5px solid #2e3352;border-radius:20px;padding:7px 14px;color:#e8eaf6;font-family:'Rajdhani',sans-serif;font-size:0.82rem;font-weight:700;letter-spacing:1px;cursor:pointer;">
+          <div id="btnPerfilFoto" style="width:26px;height:26px;border-radius:50%;background:#2e3352;display:flex;align-items:center;justify-content:center;font-size:0.9rem;overflow:hidden;flex-shrink:0;">👤</div>
+          <span id="btnPerfilNombre">Mi perfil</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="btn-linea" style="opacity:0.5; cursor:not-allowed;">
+      <div class="linea-info">
+        <h2>Línea 20</h2>
+        <p>Ventanas corredizas aluminio</p>
+      </div>
+      <span class="badge-soon">PRONTO</span>
+    </div>
+
+    <div class="btn-linea" onclick="goToScreen2('linea25')">
+      <div class="linea-info">
+        <h2>Línea 25</h2>
+        <p>Ventanas corredizas aluminio</p>
+      </div>
+      <span class="arrow">›</span>
+    </div>
+
+    <!-- PUERTAS -->
+    <p class="section-label">🚪 Puertas</p>
+
+    <div class="btn-linea" style="opacity:0.5; cursor:not-allowed;">
+      <div class="linea-info">
+        <h2>Línea 32</h2>
+        <p>Puertas de aluminio</p>
+      </div>
+      <span class="badge-soon">PRONTO</span>
+    </div>
+
+    <div class="btn-linea" onclick="goToScreenLinea35()">
+      <div class="linea-info">
+        <h2>Línea 35</h2>
+        <p>Puertas de aluminio</p>
+      </div>
+      <span class="arrow">›</span>
+    </div>
+
+    <!-- MÁXIMA -->
+    <p class="section-label">💎 Máxima</p>
+
+    <div class="btn-linea" style="opacity:0.5; cursor:not-allowed;">
+      <div class="linea-info">
+        <h2>Línea Máxima</h2>
+        <p>Sistema máxima aluminio</p>
+      </div>
+      <span class="badge-soon">PRONTO</span>
+    </div>
+
+    <!-- TEMPLADOS -->
+    <p class="section-label">🔷 Templados</p>
+
+    <div class="btn-linea" onclick="goToScreenTempladoVentanas()">
+      <div class="linea-info">
+        <h2>Vidrio Templado Ventanas</h2>
+        <p>Cálculo de vidrio templado</p>
+      </div>
+      <span class="arrow">›</span>
+    </div>
+
+    <div class="btn-linea" style="opacity:0.5; cursor:not-allowed;">
+      <div class="linea-info">
+        <h2>Vidrio Templado Puertas</h2>
+        <p>Cálculo de vidrio templado</p>
+      </div>
+      <span class="badge-soon">PRONTO</span>
+    </div>
+
+  </div>
+
+  <!-- PANTALLA 2: SELECCIÓN DE HOJAS -->
+  <div class="screen" id="screen2">
+    <p class="screen-title">Selecciona el tipo</p>
+
+    <div class="info-bar">
+      <span>Línea seleccionada</span>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <strong id="lineaSeleccionada">Línea 25</strong>
+        <button onclick="abrirAjustes()" style="background:#22263a;border:1.5px solid #2e3352;border-radius:8px;padding:6px 12px;color:#9fa8da;font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:700;letter-spacing:1px;cursor:pointer;">⚙️ Ajustes</button>
+      </div>
+    </div>
+
+    <div class="btn-hojas" onclick="goToScreen3(2)">
+      <div class="hojas-icon">2H</div>
+      <div class="hojas-text">
+        <h3>2 Hojas</h3>
+        <p>Riel, jamba, pierna, gancho, zócalo, cabezal</p>
+      </div>
+    </div>
+
+    <div class="btn-hojas" onclick="goToScreen3(3)">
+      <div class="hojas-icon">3H</div>
+      <div class="hojas-text">
+        <h3>3 Hojas</h3>
+        <p>Riel, jamba, pierna, gancho, zócalo, cabezal</p>
+      </div>
+    </div>
+
+    <div class="btn-hojas" onclick="goToScreen3(4)">
+      <div class="hojas-icon">4H</div>
+      <div class="hojas-text">
+        <h3>4 Hojas</h3>
+        <p>Riel, jamba, pierna, gancho, zócalo, cabezal</p>
+      </div>
+    </div>
+
+    <button class="btn-optimizador" onclick="goToScreen(5)">
+      <span>📊 Optimizador de Barras</span>
+      <span class="arrow">›</span>
+    </button>
+
+    <button class="btn-back" onclick="goToScreen(1)">← Volver</button>
+  </div>
+
+  <!-- PANTALLA 5: OPTIMIZADOR DE BARRAS -->
+  <div class="screen" id="screen5">
+    <p class="screen-title">Optimizador de Barras</p>
+
+    <div class="info-bar">
+      <span>Longitud de barra</span>
+      <strong>5.95 m · disco 3mm</strong>
+    </div>
+
+    <!-- Lista de ventanas agregadas -->
+    <div id="listaVentanas"></div>
+
+    <!-- Formulario agregar ventana -->
+    <div class="opt-form">
+      <div class="opt-form-row">
+        <div class="input-group" style="flex:1;">
+          <label>Ancho (mm)</label>
+          <input type="number" id="optAncho" placeholder="Ej: 1200" inputmode="numeric">
+        </div>
+        <div class="input-group" style="flex:1;">
+          <label>Alto (mm)</label>
+          <input type="number" id="optAlto" placeholder="Ej: 1000" inputmode="numeric">
+        </div>
+      </div>
+      <div class="opt-form-row">
+        <div class="input-group" style="flex:1;">
+          <label>Hojas</label>
+          <select id="optHojas">
+            <option value="2">2 Hojas</option>
+            <option value="3">3 Hojas</option>
+            <option value="4">4 Hojas</option>
+          </select>
+        </div>
+        <div class="input-group" style="flex:1;">
+          <label>Nombre</label>
+          <input type="text" id="optNombre" placeholder="Ej: V1, sala..." maxlength="20">
+        </div>
+      </div>
+      <div class="error-msg" id="errorOpt">⚠️ Ingresa ancho, alto y nombre.</div>
+      <button class="btn-calcular" style="margin-top:4px;" onclick="agregarVentanaOpt()">+ Agregar ventana</button>
+    </div>
+
+    <!-- Resultado del optimizador -->
+    <div class="opt-resultado" id="optResultado" style="display:none;">
+      <div class="resultados-title">📊 Barras necesarias (5.95 m)</div>
+      <div id="optResultadoItems"></div>
+    </div>
+
+    <button class="btn-calcular" id="btnOptimizar" onclick="optimizarBarras()" style="display:none; background: linear-gradient(135deg, #4a148c, #7b1fa2);">⚡ Optimizar barras</button>
+    <button class="btn-secondary" id="btnLimpiarOpt" onclick="limpiarOptimizador()" style="display:none;">🗑 Limpiar todo</button>
+
+    <button class="btn-back" onclick="goToScreen(2)">← Volver</button>
+  </div>
+
+  <!-- PANTALLA 3: CÁLCULO -->
+  <div class="screen" id="screen3">
+    <div class="info-bar">
+      <span id="infoCalculo">Línea 25 · 2 Hojas</span>
+    </div>
+
+    <div class="input-group">
+      <label>Ancho de la ventana (mm)</label>
+      <input type="number" id="inputAncho" placeholder="Ej: 1200" inputmode="numeric">
+    </div>
+
+    <div class="input-group">
+      <label>Alto de la ventana (mm)</label>
+      <input type="number" id="inputAlto" placeholder="Ej: 1000" inputmode="numeric">
+    </div>
+
+    <div class="error-msg" id="errorMsg">⚠️ Por favor ingresa el ancho y alto correctamente.</div>
+
+    <button class="btn-calcular" onclick="calcular()">Calcular</button>
+
+    <!-- RESULTADOS -->
+    <div class="resultados" id="resultados">
+      <div class="resultados-title">✅ Resultados del corte</div>
+
+      <div class="resultado-item">
+        <span class="nombre">Riel Sup / Inf</span>
+        <div class="right">
+          <div class="medida" id="riel_sup">— mm</div>
+          <div class="cantidad">× 2 piezas</div>
+        </div>
+      </div>
+
+      <div class="resultado-item">
+        <span class="nombre">Jamba</span>
+        <div class="right">
+          <div class="medida" id="jamba">— mm</div>
+          <div class="cantidad">× 2 piezas</div>
+        </div>
+      </div>
+
+      <div class="resultado-item">
+        <span class="nombre">Pierna</span>
+        <div class="right">
+          <div class="medida" id="pierna">— mm</div>
+          <div class="cantidad" id="qty_pierna">× 2 piezas</div>
+        </div>
+      </div>
+
+      <div class="resultado-item">
+        <span class="nombre">Gancho</span>
+        <div class="right">
+          <div class="medida" id="gancho">— mm</div>
+          <div class="cantidad" id="qty_gancho">× 2 piezas</div>
+        </div>
+      </div>
+
+      <div class="resultado-item">
+        <span class="nombre">Zócalo</span>
+        <div class="right">
+          <div class="medida" id="zocalo">— mm</div>
+          <div class="cantidad" id="qty_zocalo">× 2 piezas</div>
+        </div>
+      </div>
+
+      <div class="resultado-item">
+        <span class="nombre">Cabezal</span>
+        <div class="right">
+          <div class="medida" id="cabezal">— mm</div>
+          <div class="cantidad" id="qty_cabezal">× 2 piezas</div>
+        </div>
+      </div>
+
+      <div class="resultado-item" style="border-left-color: #5c6bc0;">
+        <span class="nombre">Vidrio</span>
+        <div class="right">
+          <div class="medida" id="vidrio_medida" style="color:#9fa8da; font-size:0.85rem;">Pendiente</div>
+          <div class="cantidad" id="qty_vidrio">× 2 piezas</div>
+        </div>
+      </div>
+
+      <div class="resultados-title" style="margin-top:8px;">💰 Precios</div>
+
+      <div class="resultado-item" style="border-left-color: #69f0ae;">
+        <span class="nombre">Precio × 10</span>
+        <div class="right">
+          <div class="medida" style="color:#69f0ae;" id="precio10">—</div>
+        </div>
+      </div>
+
+      <div class="resultado-item" style="border-left-color: #69f0ae;">
+        <span class="nombre">Precio × 11</span>
+        <div class="right">
+          <div class="medida" style="color:#69f0ae;" id="precio11">—</div>
+        </div>
+      </div>
+
+      <div class="resultado-item" style="border-left-color: #69f0ae;">
+        <span class="nombre">Precio × 12</span>
+        <div class="right">
+          <div class="medida" style="color:#69f0ae;" id="precio12">—</div>
+        </div>
+      </div>
+
+      <div class="resultado-item" style="border-left-color: #69f0ae;">
+        <span class="nombre">Precio × 13</span>
+        <div class="right">
+          <div class="medida" style="color:#69f0ae;" id="precio13">—</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Botón para ir a pantalla de precio (aparece tras calcular) -->
+    <button class="btn-descargar" id="btnIrPrecio" onclick="goToScreen4()" style="display:none;">
+      📷 Elegir precio y descargar
+    </button>
+
+    <button class="btn-back" onclick="goToScreen(2)">← Volver</button>
+  </div>
+
+  <!-- PANTALLA 4: ELEGIR PRECIO Y DESCARGAR -->
+  <div class="screen" id="screen4">
+    <p class="screen-title">Elige el precio</p>
+
+    <div class="info-bar">
+      <span id="infoPrecio4">Línea 25 · 2 Hojas</span>
+      <strong id="dimsPrecio4">—</strong>
+    </div>
+
+    <!-- Opciones de precio calculado -->
+    <div id="preciosCalculados">
+      <div class="precio-card" id="card_p10" onclick="seleccionarPrecio('p10')">
+        <div class="pc-left">
+          <span class="pc-label">Precio × 10</span>
+          <span class="pc-valor" id="card_val_p10">—</span>
+        </div>
+        <div class="pc-check" id="check_p10">✓</div>
+      </div>
+
+      <div class="precio-card" id="card_p11" onclick="seleccionarPrecio('p11')" style="margin-top:8px;">
+        <div class="pc-left">
+          <span class="pc-label">Precio × 11</span>
+          <span class="pc-valor" id="card_val_p11">—</span>
+        </div>
+        <div class="pc-check" id="check_p11">✓</div>
+      </div>
+
+      <div class="precio-card" id="card_p12" onclick="seleccionarPrecio('p12')" style="margin-top:8px;">
+        <div class="pc-left">
+          <span class="pc-label">Precio × 12</span>
+          <span class="pc-valor" id="card_val_p12">—</span>
+        </div>
+        <div class="pc-check" id="check_p12">✓</div>
+      </div>
+
+      <div class="precio-card" id="card_p13" onclick="seleccionarPrecio('p13')" style="margin-top:8px;">
+        <div class="pc-left">
+          <span class="pc-label">Precio × 13</span>
+          <span class="pc-valor" id="card_val_p13">—</span>
+        </div>
+        <div class="pc-check" id="check_p13">✓</div>
+      </div>
+    </div>
+
+    <!-- Si precios son pendiente -->
+    <div id="preciosPendiente" style="display:none;">
+      <div class="info-bar" style="background:#2d1515; border:1px solid #c62828;">
+        <span style="color:#ef9a9a; font-size:0.8rem;">⚠️ Los precios calculados no están disponibles para esta configuración aún.</span>
+      </div>
+    </div>
+
+    <div class="divider-label">o ingresa un precio</div>
+
+    <!-- Precio personalizado -->
+    <div class="precio-custom-wrap" id="customWrap">
+      <label>Precio personalizado</label>
+      <div class="precio-custom-row">
+        <input type="number" id="inputPrecioCustom" placeholder="Ej: 350000" inputmode="numeric">
+        <button class="use-btn" onclick="usarPrecioCustom()">Usar este</button>
+      </div>
+    </div>
+
+    <!-- Preview del precio seleccionado -->
+    <div class="preview-card" id="previewCard" style="display:none;">
+      <div class="preview-title">💰 Precio seleccionado</div>
+      <div class="preview-precio-final" id="previewPrecioValor">—</div>
+      <div class="preview-precio-label" id="previewPrecioLabel">—</div>
+    </div>
+
+    <div class="error-msg" id="errorPrecio4">⚠️ Selecciona un precio o ingresa uno personalizado.</div>
+
+    <button class="btn-descargar" onclick="descargarImagenFinal()">📷 Descargar imagen</button>
+
+    <button class="btn-back" onclick="goToScreen(3)">← Volver</button>
+  </div>
+
+  <!-- PANTALLA TEMPLADO VENTANAS: SELECCIÓN DE HOJAS -->
+  <div class="screen" id="screenTempladoVentanas">
+    <p class="screen-title">Vidrio Templado Ventanas</p>
+
+    <div class="info-bar">
+      <span>🔷 Selecciona el tipo</span>
+      <button onclick="abrirAjustesTemp()" style="background:#22263a;border:1.5px solid #2e3352;border-radius:8px;padding:6px 12px;color:#9fa8da;font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:700;letter-spacing:1px;cursor:pointer;">⚙️ Ajustes</button>
+    </div>
+
+    <div class="btn-hojas" onclick="goToScreenTempladoCalc(2)">
+      <div class="hojas-icon">2H</div>
+      <div class="hojas-text">
+        <h3>2 Hojas</h3>
+        <p>Vidrio templado para ventana 2 hojas</p>
+      </div>
+    </div>
+
+    <div class="btn-hojas" onclick="goToScreenTempladoCalc(3)">
+      <div class="hojas-icon">3H</div>
+      <div class="hojas-text">
+        <h3>3 Hojas</h3>
+        <p>Vidrio templado para ventana 3 hojas</p>
+      </div>
+    </div>
+
+    <div class="btn-hojas" onclick="goToScreenTempladoCalc(4)">
+      <div class="hojas-icon">4H</div>
+      <div class="hojas-text">
+        <h3>4 Hojas</h3>
+        <p>Vidrio templado para ventana 4 hojas</p>
+      </div>
+    </div>
+
+    <!-- OPTIMIZADOR DE BARRAS TEMPLADO -->
+    <button class="btn-optimizador" onclick="goToScreenTempladoOpt()">
+      <span>📊 Optimizador de Barras</span>
+      <span class="arrow">›</span>
+    </button>
+
+    <button class="btn-back" onclick="goToScreen(1)">← Volver</button>
+  </div>
+
+  <!-- PANTALLA TEMPLADO VENTANAS: CÁLCULO -->
+  <div class="screen" id="screenTempladoCalc">
+    <div class="info-bar">
+      <span id="infoTemplado">🔷 Templado · 2 Hojas</span>
+    </div>
+
+    <div class="input-group">
+      <label>Ancho de la ventana (mm)</label>
+      <input type="number" id="tempAncho" placeholder="Ej: 1200" inputmode="numeric">
+    </div>
+
+    <div class="input-group">
+      <label>Alto de la ventana (mm)</label>
+      <input type="number" id="tempAlto" placeholder="Ej: 1000" inputmode="numeric">
+    </div>
+
+    <div class="error-msg" id="errorTemp">⚠️ Por favor ingresa el ancho y alto correctamente.</div>
+
+    <button class="btn-calcular" onclick="calcularTemplado()">Calcular</button>
+
+    <div class="resultados" id="resultadosTemp">
+      <div class="resultados-title">✅ Medidas del vidrio templado</div>
+      <div id="resultadosTempItems"></div>
+    </div>
+
+    <button class="btn-back" style="margin-top:12px;" onclick="goToScreenTempladoVentanas()">← Volver</button>
+  </div>
+
+  <!-- PANTALLA OPTIMIZADOR TEMPLADO -->
+  <div class="screen" id="screenTempladoOpt">
+    <p class="screen-title">Optimizador · Templado</p>
+
+    <div class="info-bar">
+      <span>Longitud de barra</span>
+      <strong>5.95 m · disco 3mm</strong>
+    </div>
+
+    <div id="listaTempOpt" style="display:flex;flex-direction:column;gap:6px;margin-bottom:12px;"></div>
+
+    <div class="opt-form">
+      <div class="opt-form-row">
+        <div class="input-group" style="flex:1;">
+          <label>Ancho (mm)</label>
+          <input type="number" id="tempOptAncho" placeholder="Ej: 1200" inputmode="numeric">
+        </div>
+        <div class="input-group" style="flex:1;">
+          <label>Alto (mm)</label>
+          <input type="number" id="tempOptAlto" placeholder="Ej: 1000" inputmode="numeric">
+        </div>
+      </div>
+      <div class="opt-form-row">
+        <div class="input-group" style="flex:1;">
+          <label>Hojas</label>
+          <select id="tempOptHojas" style="background:#22263a;border:1.5px solid #2e3352;border-radius:8px;padding:10px;color:#e8eaf6;font-family:'Rajdhani',sans-serif;font-size:0.95rem;width:100%;outline:none;">
+            <option value="2">2 Hojas</option>
+            <option value="3">3 Hojas</option>
+            <option value="4">4 Hojas</option>
+          </select>
+        </div>
+        <div class="input-group" style="flex:1;">
+          <label>Nombre</label>
+          <input type="text" id="tempOptNombre" placeholder="V1, sala...">
+        </div>
+      </div>
+    </div>
+
+    <div class="error-msg" id="errorTempOpt">⚠️ Completa todos los campos.</div>
+
+    <button class="btn-agregar-ventana" onclick="agregarVentanaTemp()">+ Agregar ventana</button>
+
+    <button id="btnOptimizarTemp" onclick="optimizarBarrasTemp()" style="display:none;" class="btn-optimizar-ahora">📊 Optimizar barras</button>
+    <button id="btnLimpiarTemp" onclick="limpiarTempOpt()" style="display:none;" class="btn-limpiar-opt">🗑 Limpiar lista</button>
+
+    <div id="optResultadoTemp" style="display:none;">
+      <div id="optResultadoItemsTemp"></div>
+    </div>
+
+    <button class="btn-back" onclick="goToScreenTempladoVentanas()">← Volver</button>
+  </div>
+
+  <!-- PANTALLA LÍNEA 35 -->
+  <div class="screen" id="screenLinea35">
+
+    <div class="info-bar">
+      <span>🚪 Línea 35 — Puerta</span>
+      <button onclick="abrirAjustes35()" style="background:#22263a;border:1.5px solid #2e3352;border-radius:8px;padding:6px 12px;color:#9fa8da;font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:700;letter-spacing:1px;cursor:pointer;">⚙️ Ajustes</button>
+    </div>
+
+    <div class="input-group">
+      <label>Ancho de la puerta (mm)</label>
+      <input type="number" id="p35Ancho" placeholder="Ej: 1100" inputmode="numeric">
+    </div>
+
+    <div class="input-group">
+      <label>Alto de la puerta (mm)</label>
+      <input type="number" id="p35Alto" placeholder="Ej: 2100" inputmode="numeric">
+    </div>
+
+    <div class="error-msg" id="errorP35">⚠️ Por favor ingresa el ancho y alto correctamente.</div>
+
+    <button class="btn-calcular" onclick="calcularP35()">Calcular</button>
+
+    <!-- RESULTADOS -->
+    <div class="resultados" id="resultadosP35">
+      <div class="resultados-title">✅ Resultados del corte</div>
+
+      <div style="font-family:'Rajdhani',sans-serif;font-size:0.7rem;font-weight:700;color:#ce93d8;letter-spacing:2px;text-transform:uppercase;margin:4px 0 6px;padding-bottom:6px;border-bottom:1px solid #2e3352;">Marco</div>
+
+      <div class="resultado-item">
+        <span class="nombre">Vertical Marco</span>
+        <div class="right">
+          <div class="medida" id="p35_marco_v">— mm</div>
+          <div class="cantidad">× 2 piezas</div>
+        </div>
+      </div>
+
+      <div class="resultado-item">
+        <span class="nombre">Horizontal Marco</span>
+        <div class="right">
+          <div class="medida" id="p35_marco_h">— mm</div>
+          <div class="cantidad">× 1 pieza</div>
+        </div>
+      </div>
+
+      <div style="font-family:'Rajdhani',sans-serif;font-size:0.7rem;font-weight:700;color:#ce93d8;letter-spacing:2px;text-transform:uppercase;margin:12px 0 6px;padding-bottom:6px;border-bottom:1px solid #2e3352;">Hoja</div>
+
+      <div class="resultado-item">
+        <span class="nombre">Vertical Hoja</span>
+        <div class="right">
+          <div class="medida" id="p35_hoja_v">— mm</div>
+          <div class="cantidad">× 2 piezas</div>
+        </div>
+      </div>
+
+      <div class="resultado-item">
+        <span class="nombre">Horizontal Hoja</span>
+        <div class="right">
+          <div class="medida" id="p35_hoja_h">— mm</div>
+          <div class="cantidad">× 2 piezas</div>
+        </div>
+      </div>
+
+      <!-- OPTIMIZADOR DE BARRAS P35 -->
+      <div style="margin-top:18px;padding-top:14px;border-top:1px solid #2e3352;">
+        <div class="resultados-title" style="margin-bottom:10px;">📊 Optimizador de barras</div>
+        <div id="optResultadoP35" style="display:none;">
+          <div id="optResultadoItemsP35"></div>
+        </div>
+      </div>
+
+    </div>
+
+    <button class="btn-back" style="margin-top:12px;" onclick="goToScreen(1)">← Volver</button>
+  </div>
+
+</div>
+
+<!-- MODAL AJUSTES TEMPLADO -->
+<div id="modalAjustesTemp" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.75);z-index:999;overflow-y:auto;">
+  <div style="background:#1a1d27;border:1.5px solid #2e3352;border-radius:16px;max-width:480px;margin:24px auto;padding:24px 18px;">
+
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;padding-bottom:12px;border-bottom:1px solid #2e3352;">
+      <span style="font-family:'Rajdhani',sans-serif;font-size:1.2rem;font-weight:700;color:#4fc3f7;letter-spacing:2px;">⚙️ AJUSTES TEMPLADO</span>
+      <button onclick="cerrarAjustesTemp()" style="background:#22263a;border:1px solid #2e3352;border-radius:8px;padding:6px 12px;color:#9fa8da;font-size:1rem;cursor:pointer;">✕</button>
+    </div>
+
+    <p style="font-size:0.75rem;color:#9fa8da;letter-spacing:1px;margin-bottom:16px;line-height:1.5;">Solo descuentos del vidrio. Los perfiles de aluminio no llevan descuento.</p>
+
+    <div style="margin-bottom:14px;">
+      <p style="font-family:'Rajdhani',sans-serif;font-size:0.8rem;font-weight:700;color:#4fc3f7;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid #2e3352;">Alto vidrio fijo</p>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <span style="font-size:0.8rem;color:#9fa8da;flex:1;">Alto − <strong style="color:#4fc3f7;" id="lblTempFijoH">65</strong> mm</span>
+        <input type="number" id="ajTempFijoH" inputmode="numeric" style="width:90px;background:#22263a;border:1.5px solid #2e3352;border-radius:8px;padding:10px;color:#e8eaf6;font-family:'Rajdhani',sans-serif;font-size:1rem;font-weight:700;text-align:center;outline:none;">
+      </div>
+    </div>
+
+    <div style="margin-bottom:14px;">
+      <p style="font-family:'Rajdhani',sans-serif;font-size:0.8rem;font-weight:700;color:#69f0ae;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid #2e3352;">Alto vidrio corredizo</p>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <span style="font-size:0.8rem;color:#9fa8da;flex:1;">Alto − <strong style="color:#69f0ae;" id="lblTempCorriH">25</strong> mm</span>
+        <input type="number" id="ajTempCorriH" inputmode="numeric" style="width:90px;background:#22263a;border:1.5px solid #2e3352;border-radius:8px;padding:10px;color:#e8eaf6;font-family:'Rajdhani',sans-serif;font-size:1rem;font-weight:700;text-align:center;outline:none;">
+      </div>
+    </div>
+
+    <div style="margin-bottom:14px;">
+      <p style="font-family:'Rajdhani',sans-serif;font-size:0.8rem;font-weight:700;color:#69f0ae;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid #2e3352;">Extra ancho corredizo</p>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <span style="font-size:0.8rem;color:#9fa8da;flex:1;">Ancho ÷ hojas + <strong style="color:#69f0ae;" id="lblTempCorriA">40</strong> mm</span>
+        <input type="number" id="ajTempCorriA" inputmode="numeric" style="width:90px;background:#22263a;border:1.5px solid #2e3352;border-radius:8px;padding:10px;color:#e8eaf6;font-family:'Rajdhani',sans-serif;font-size:1rem;font-weight:700;text-align:center;outline:none;">
+      </div>
+    </div>
+
+    <div style="margin-bottom:20px;">
+      <p style="font-family:'Rajdhani',sans-serif;font-size:0.8rem;font-weight:700;color:#ffb74d;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid #2e3352;">Tapa Trillo</p>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <span style="font-size:0.8rem;color:#9fa8da;flex:1;">Ancho ÷ hojas − <strong style="color:#ffb74d;" id="lblTempTT">4</strong> mm</span>
+        <input type="number" id="ajTempTT" inputmode="numeric" style="width:90px;background:#22263a;border:1.5px solid #2e3352;border-radius:8px;padding:10px;color:#e8eaf6;font-family:'Rajdhani',sans-serif;font-size:1rem;font-weight:700;text-align:center;outline:none;">
+      </div>
+    </div>
+
+    <button onclick="guardarAjustesTemp()" style="background:linear-gradient(135deg,#0288d1,#01579b);border:none;border-radius:12px;padding:16px;color:white;font-family:'Rajdhani',sans-serif;font-size:1.05rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;width:100%;margin-bottom:10px;">💾 Guardar ajustes</button>
+    <button onclick="resetearAjustesTemp()" style="background:transparent;border:1.5px solid #c62828;border-radius:12px;padding:12px;color:#ef9a9a;font-family:'Rajdhani',sans-serif;font-size:0.9rem;font-weight:600;letter-spacing:1px;cursor:pointer;width:100%;">↺ Restablecer valores por defecto</button>
+
+  </div>
+</div>
+
+<!-- MODAL AJUSTES LÍNEA 35 -->
+<div id="modalAjustes35" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.75);z-index:999;overflow-y:auto;">
+  <div style="background:#1a1d27;border:1.5px solid #2e3352;border-radius:16px;max-width:480px;margin:24px auto;padding:24px 18px;">
+
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;padding-bottom:12px;border-bottom:1px solid #2e3352;">
+      <span style="font-family:'Rajdhani',sans-serif;font-size:1.2rem;font-weight:700;color:#ffb74d;letter-spacing:2px;">⚙️ AJUSTES LÍNEA 35</span>
+      <button onclick="cerrarAjustes35()" style="background:#22263a;border:1px solid #2e3352;border-radius:8px;padding:6px 12px;color:#9fa8da;font-size:1rem;cursor:pointer;">✕</button>
+    </div>
+
+    <p style="font-size:0.75rem;color:#9fa8da;letter-spacing:1px;margin-bottom:16px;line-height:1.5;">
+      Configura los descuentos para la hoja de la puerta. El marco usa siempre la medida original.
+    </p>
+
+    <div style="margin-bottom:14px;">
+      <p style="font-family:'Rajdhani',sans-serif;font-size:0.8rem;font-weight:700;color:#ffb74d;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid #2e3352;">Hoja — Horizontal</p>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <span style="font-size:0.8rem;color:#9fa8da;flex:1;">Ancho − <strong style="color:#ffb74d;" id="lbl35_h">195</strong> mm</span>
+        <input type="number" id="aj35_h" inputmode="numeric" style="width:90px;background:#22263a;border:1.5px solid #2e3352;border-radius:8px;padding:10px;color:#e8eaf6;font-family:'Rajdhani',sans-serif;font-size:1rem;font-weight:700;text-align:center;outline:none;">
+      </div>
+    </div>
+
+    <div style="margin-bottom:20px;">
+      <p style="font-family:'Rajdhani',sans-serif;font-size:0.8rem;font-weight:700;color:#ffb74d;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid #2e3352;">Hoja — Vertical</p>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <span style="font-size:0.8rem;color:#9fa8da;flex:1;">Alto − <strong style="color:#ffb74d;" id="lbl35_v">25</strong> mm</span>
+        <input type="number" id="aj35_v" inputmode="numeric" style="width:90px;background:#22263a;border:1.5px solid #2e3352;border-radius:8px;padding:10px;color:#e8eaf6;font-family:'Rajdhani',sans-serif;font-size:1rem;font-weight:700;text-align:center;outline:none;">
+      </div>
+    </div>
+
+    <button onclick="guardarAjustes35()" style="background:linear-gradient(135deg,#e65100,#bf360c);border:none;border-radius:12px;padding:16px;color:white;font-family:'Rajdhani',sans-serif;font-size:1.05rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;width:100%;margin-bottom:10px;">💾 Guardar ajustes</button>
+    <button onclick="resetearAjustes35()" style="background:transparent;border:1.5px solid #c62828;border-radius:12px;padding:12px;color:#ef9a9a;font-family:'Rajdhani',sans-serif;font-size:0.9rem;font-weight:600;letter-spacing:1px;cursor:pointer;width:100%;">↺ Restablecer valores por defecto</button>
+
+  </div>
+</div>
+
+<!-- MODAL AJUSTES -->
+<div id="modalAjustes" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.75);z-index:999;overflow-y:auto;">
+  <div style="background:#1a1d27;border:1.5px solid #2e3352;border-radius:16px;max-width:480px;margin:24px auto;padding:24px 18px;">
+
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;padding-bottom:12px;border-bottom:1px solid #2e3352;">
+      <span style="font-family:'Rajdhani',sans-serif;font-size:1.2rem;font-weight:700;color:#4fc3f7;letter-spacing:2px;">⚙️ AJUSTES DE DESCUENTO</span>
+      <button onclick="cerrarAjustes()" style="background:#22263a;border:1px solid #2e3352;border-radius:8px;padding:6px 12px;color:#9fa8da;font-size:1rem;cursor:pointer;">✕</button>
+    </div>
+
+    <p style="font-size:0.75rem;color:#9fa8da;letter-spacing:1px;margin-bottom:16px;line-height:1.5;">
+      Configura los valores de descuento para cada perfil. Estos se guardan automáticamente.
+    </p>
+
+    <!-- RIEL -->
+    <div style="margin-bottom:14px;">
+      <p style="font-family:'Rajdhani',sans-serif;font-size:0.8rem;font-weight:700;color:#ce93d8;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid #2e3352;">Riel Sup / Inf</p>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <span style="font-size:0.8rem;color:#9fa8da;flex:1;">Ancho − <strong style="color:#4fc3f7;" id="lbl_riel">17</strong> mm</span>
+        <input type="number" id="aj_riel" inputmode="numeric" style="width:90px;background:#22263a;border:1.5px solid #2e3352;border-radius:8px;padding:10px;color:#e8eaf6;font-family:'Rajdhani',sans-serif;font-size:1rem;font-weight:700;text-align:center;outline:none;">
+      </div>
+    </div>
+
+    <!-- PIERNA / GANCHO -->
+    <div style="margin-bottom:14px;">
+      <p style="font-family:'Rajdhani',sans-serif;font-size:0.8rem;font-weight:700;color:#ce93d8;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid #2e3352;">Pierna / Gancho</p>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <span style="font-size:0.8rem;color:#9fa8da;flex:1;">Alto − <strong style="color:#4fc3f7;" id="lbl_pierna">35</strong> mm</span>
+        <input type="number" id="aj_pierna" inputmode="numeric" style="width:90px;background:#22263a;border:1.5px solid #2e3352;border-radius:8px;padding:10px;color:#e8eaf6;font-family:'Rajdhani',sans-serif;font-size:1rem;font-weight:700;text-align:center;outline:none;">
+      </div>
+    </div>
+
+    <!-- ZÓCALO / CABEZAL 2H -->
+    <div style="margin-bottom:14px;">
+      <p style="font-family:'Rajdhani',sans-serif;font-size:0.8rem;font-weight:700;color:#ce93d8;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid #2e3352;">Zócalo / Cabezal — 2 Hojas</p>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <span style="font-size:0.8rem;color:#9fa8da;flex:1;">(Ancho + <strong style="color:#4fc3f7;" id="lbl_zoc2">8</strong>) ÷ 2</span>
+        <input type="number" id="aj_zoc2" inputmode="numeric" style="width:90px;background:#22263a;border:1.5px solid #2e3352;border-radius:8px;padding:10px;color:#e8eaf6;font-family:'Rajdhani',sans-serif;font-size:1rem;font-weight:700;text-align:center;outline:none;">
+      </div>
+    </div>
+
+    <!-- ZÓCALO / CABEZAL 3H -->
+    <div style="margin-bottom:14px;">
+      <p style="font-family:'Rajdhani',sans-serif;font-size:0.8rem;font-weight:700;color:#ce93d8;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid #2e3352;">Zócalo / Cabezal — 3 Hojas</p>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <span style="font-size:0.8rem;color:#9fa8da;flex:1;">(Ancho + <strong style="color:#4fc3f7;" id="lbl_zoc3">38</strong>) ÷ 3</span>
+        <input type="number" id="aj_zoc3" inputmode="numeric" style="width:90px;background:#22263a;border:1.5px solid #2e3352;border-radius:8px;padding:10px;color:#e8eaf6;font-family:'Rajdhani',sans-serif;font-size:1rem;font-weight:700;text-align:center;outline:none;">
+      </div>
+    </div>
+
+    <!-- ZÓCALO / CABEZAL 4H -->
+    <div style="margin-bottom:20px;">
+      <p style="font-family:'Rajdhani',sans-serif;font-size:0.8rem;font-weight:700;color:#ce93d8;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid #2e3352;">Zócalo / Cabezal — 4 Hojas</p>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <span style="font-size:0.8rem;color:#9fa8da;flex:1;">(Ancho + <strong style="color:#4fc3f7;" id="lbl_zoc4">40</strong>) ÷ 4</span>
+        <input type="number" id="aj_zoc4" inputmode="numeric" style="width:90px;background:#22263a;border:1.5px solid #2e3352;border-radius:8px;padding:10px;color:#e8eaf6;font-family:'Rajdhani',sans-serif;font-size:1rem;font-weight:700;text-align:center;outline:none;">
+      </div>
+    </div>
+
+    <button onclick="guardarAjustes()" style="background:linear-gradient(135deg,#0288d1,#01579b);border:none;border-radius:12px;padding:16px;color:white;font-family:'Rajdhani',sans-serif;font-size:1.05rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;width:100%;margin-bottom:10px;">💾 Guardar ajustes</button>
+    <button onclick="resetearAjustes()" style="background:transparent;border:1.5px solid #c62828;border-radius:12px;padding:12px;color:#ef9a9a;font-family:'Rajdhani',sans-serif;font-size:0.9rem;font-weight:600;letter-spacing:1px;cursor:pointer;width:100%;">↺ Restablecer valores por defecto</button>
+
+  </div>
+</div>
+
+  <!-- PANTALLA HISTORIAL -->
+  <div class="screen" id="screenHistorial">
+    <div class="info-bar">
+      <span style="font-family:'Rajdhani',sans-serif;font-weight:700;letter-spacing:2px;">📋 HISTORIAL DE CORTES</span>
+      <button onclick="limpiarHistorial()" style="background:transparent;border:1px solid #c62828;border-radius:8px;padding:5px 10px;color:#ef9a9a;font-size:0.72rem;font-family:'Rajdhani',sans-serif;cursor:pointer;">🗑 Limpiar</button>
+    </div>
+
+    <div id="historialLista" style="display:flex;flex-direction:column;gap:10px;margin-top:4px;"></div>
+
+    <div id="historialVacio" style="display:none;text-align:center;padding:40px 20px;">
+      <div style="font-size:2.5rem;margin-bottom:12px;">📋</div>
+      <p style="font-family:'Rajdhani',sans-serif;color:#9fa8da;letter-spacing:1px;">Aún no hay cortes registrados</p>
+      <p style="font-size:0.78rem;color:#5c6bc0;margin-top:6px;">Hacé un cálculo y aparecerá aquí</p>
+    </div>
+
+    <button class="btn-back" style="margin-top:12px;" onclick="goToScreen(1)">← Volver</button>
+  </div>
+
+  <!-- PANTALLA PERFIL -->
+  <div class="screen" id="screenPerfil">
+    <div class="info-bar">
+      <span style="font-family:'Rajdhani',sans-serif;font-weight:700;letter-spacing:2px;">👤 MI PERFIL</span>
+    </div>
+
+    <!-- Foto y nombre -->
+    <div style="display:flex;flex-direction:column;align-items:center;padding:24px 0 16px;">
+      <div id="perfilFotoWrap" style="width:90px;height:90px;border-radius:50%;background:#22263a;border:2px solid #2e3352;display:flex;align-items:center;justify-content:center;font-size:2.5rem;overflow:hidden;margin-bottom:12px;cursor:pointer;" onclick="document.getElementById('perfilFotoInput').click()">
+        <span id="perfilFotoEmoji">👤</span>
+        <img id="perfilFotoImg" src="" style="display:none;width:100%;height:100%;object-fit:cover;">
+      </div>
+      <input type="file" id="perfilFotoInput" accept="image/*" style="display:none;" onchange="cambiarFoto(event)">
+      <button onclick="document.getElementById('perfilFotoInput').click()" style="background:transparent;border:1px solid #2e3352;border-radius:8px;padding:5px 12px;color:#9fa8da;font-size:0.72rem;font-family:'Rajdhani',sans-serif;cursor:pointer;margin-bottom:16px;">📷 Cambiar foto</button>
+
+      <div style="width:100%;">
+        <div style="font-size:0.68rem;color:#9fa8da;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px;">Tu nombre</div>
+        <div style="display:flex;gap:8px;">
+          <input type="text" id="perfilNombreInput" placeholder="¿Cómo te llamás?" style="flex:1;background:#22263a;border:1.5px solid #2e3352;border-radius:8px;padding:11px 12px;color:#e8eaf6;font-family:'Rajdhani',sans-serif;font-size:1rem;outline:none;">
+          <button onclick="guardarPerfil()" style="background:linear-gradient(135deg,#0288d1,#01579b);border:none;border-radius:8px;padding:11px 16px;color:white;font-family:'Rajdhani',sans-serif;font-size:0.9rem;font-weight:700;cursor:pointer;">✓</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Info de membresía -->
+    <div style="background:#1a1d27;border:1.5px solid #2e3352;border-radius:14px;padding:16px;margin-bottom:14px;">
+      <div style="font-family:'Rajdhani',sans-serif;font-size:0.75rem;font-weight:700;color:#9fa8da;letter-spacing:2px;text-transform:uppercase;margin-bottom:12px;">Membresía</div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+        <span style="font-size:0.82rem;color:#9fa8da;">Estado</span>
+        <span id="perfilEstado" style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;font-weight:700;color:#69f0ae;">🟢 Activo</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+        <span style="font-size:0.82rem;color:#9fa8da;">Días restantes</span>
+        <span id="perfilDias" style="font-family:'Rajdhani',sans-serif;font-size:1.1rem;font-weight:700;color:#4fc3f7;">—</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;">
+        <span style="font-size:0.82rem;color:#9fa8da;">Vence el</span>
+        <span id="perfilVence" style="font-family:'Rajdhani',sans-serif;font-size:0.82rem;color:#e8eaf6;">—</span>
+      </div>
+    </div>
+
+    <!-- ID dispositivo -->
+    <div style="background:#1a1d27;border:1.5px solid #2e3352;border-radius:14px;padding:14px;margin-bottom:14px;">
+      <div style="font-family:'Rajdhani',sans-serif;font-size:0.75rem;font-weight:700;color:#9fa8da;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;">ID de dispositivo</div>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <span id="perfilDeviceId" style="flex:1;font-size:0.7rem;color:#4fc3f7;word-break:break-all;font-family:'Rajdhani',sans-serif;"></span>
+        <button onclick="copiarDeviceId()" style="background:#22263a;border:1px solid #2e3352;border-radius:6px;padding:6px 10px;color:#9fa8da;font-size:0.72rem;cursor:pointer;flex-shrink:0;">📋</button>
+      </div>
+    </div>
+
+    <!-- Botones de soporte -->
+    <button onclick="contactarSoporte()" style="width:100%;background:linear-gradient(135deg,#2e7d32,#1b5e20);border:none;border-radius:12px;padding:15px;color:white;font-family:'Rajdhani',sans-serif;font-size:1rem;font-weight:700;letter-spacing:1.5px;cursor:pointer;margin-bottom:8px;">💬 Contactar soporte</button>
+    <button onclick="informarError()" style="width:100%;background:transparent;border:1.5px solid #f57f17;border-radius:12px;padding:14px;color:#ffb74d;font-family:'Rajdhani',sans-serif;font-size:0.95rem;font-weight:700;letter-spacing:1.5px;cursor:pointer;margin-bottom:16px;">⚠️ Informar un error</button>
+
+    <button class="btn-back" onclick="goToScreen(1)">← Volver</button>
+  </div>
+
+</div>
+
+<!-- MODAL MENSAJE BIENVENIDA -->
+<div id="modalBienvenida" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.85);z-index:9000;display:none;align-items:center;justify-content:center;padding:24px;">
+  <div style="background:#1a1d27;border:1.5px solid #4fc3f7;border-radius:20px;max-width:420px;width:100%;padding:28px 22px;text-align:center;">
+    <div style="font-size:2rem;margin-bottom:12px;">👋</div>
+    <div id="msgBienvenidaTitulo" style="font-family:'Rajdhani',sans-serif;font-size:1.2rem;font-weight:700;color:#4fc3f7;letter-spacing:2px;margin-bottom:12px;"></div>
+    <div id="msgBienvenidaCuerpo" style="font-size:0.85rem;color:#9fa8da;line-height:1.7;margin-bottom:24px;white-space:pre-wrap;"></div>
+    <button onclick="cerrarBienvenida()" style="background:linear-gradient(135deg,#0288d1,#01579b);border:none;border-radius:12px;padding:15px;color:white;font-family:'Rajdhani',sans-serif;font-size:1rem;font-weight:700;letter-spacing:2px;cursor:pointer;width:100%;">✅ Continuar</button>
+  </div>
+</div>
+
+<!-- MODAL MENSAJE ACTUALIZACIÓN -->
+<div id="modalActualizacion" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.92);z-index:9999;align-items:center;justify-content:center;padding:24px;">
+  <div style="background:#1a1d27;border:1.5px solid #ffb74d;border-radius:20px;max-width:420px;width:100%;padding:28px 22px;text-align:center;">
+    <div style="font-size:2rem;margin-bottom:12px;">🔄</div>
+    <div id="msgActualizacionTitulo" style="font-family:'Rajdhani',sans-serif;font-size:1.2rem;font-weight:700;color:#ffb74d;letter-spacing:2px;margin-bottom:12px;"></div>
+    <div id="msgActualizacionCuerpo" style="font-size:0.85rem;color:#9fa8da;line-height:1.7;margin-bottom:24px;white-space:pre-wrap;"></div>
+    <button onclick="solicitarActualizacion()" style="background:linear-gradient(135deg,#e65100,#bf360c);border:none;border-radius:12px;padding:15px;color:white;font-family:'Rajdhani',sans-serif;font-size:1rem;font-weight:700;letter-spacing:2px;cursor:pointer;width:100%;">📲 Solicitar actualización</button>
+  </div>
+</div>
+
+<!-- PLANTILLA OCULTA PARA LA IMAGEN -->
+<div id="imagenDescarga">
+  <div class="img-header">
+    <h2>🪟 Ventanas Aluminio</h2>
+    <p id="img_info">Línea 25 · 2 Hojas</p>
+  </div>
+
+  <div class="img-section-title">✅ Materiales de corte</div>
+
+  <div class="img-row">
+    <span class="ir-nombre">Riel Superior / Inferior</span>
+    <div class="ir-qty" id="img_qty_riel">× 2 piezas</div>
+  </div>
+
+  <div class="img-row">
+    <span class="ir-nombre">Jamba</span>
+    <div class="ir-qty">× 2 piezas</div>
+  </div>
+
+  <div class="img-row">
+    <span class="ir-nombre">Pierna</span>
+    <div class="ir-qty" id="img_qty_pierna">× 2 piezas</div>
+  </div>
+
+  <div class="img-row">
+    <span class="ir-nombre">Gancho</span>
+    <div class="ir-qty" id="img_qty_gancho">× 2 piezas</div>
+  </div>
+
+  <div class="img-row">
+    <span class="ir-nombre">Zócalo</span>
+    <div class="ir-qty" id="img_qty_zocalo">× 2 piezas</div>
+  </div>
+
+  <div class="img-row">
+    <span class="ir-nombre">Cabezal</span>
+    <div class="ir-qty" id="img_qty_cabezal">× 2 piezas</div>
+  </div>
+
+  <div class="img-precio-box">
+    <div class="img-precio-label">Precio total</div>
+    <div class="img-precio-valor" id="img_precio_final">—</div>
+  </div>
+
+  <div class="img-footer">Calculadora de Ventanas de Aluminio</div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js">
+  </script>
+<script>
+  let lineaActual = 'linea25';
+  let hojasActual = 2;
+  let precioSeleccionado = null;
+  let precioSeleccionadoLabel = '';
+  let preciosCalculados = { p10: null, p11: null, p12: null, p13: null };
+  let ultimoCalculo = {};
+
+  var DEFAULTS_AJUSTES = { riel: 17, pierna: 35, zoc2: 8, zoc3: 38, zoc4: 40 };
+  var ajustes = JSON.parse(JSON.stringify(DEFAULTS_AJUSTES));
+
+  (function cargarAjustesGuardados() {
+    var saved = localStorage.getItem('ou_ajustes');
+    if (saved) {
+      try { ajustes = JSON.parse(saved); } catch(e) {}
+    }
+  })();
+
+  function abrirAjustes() {
+    document.getElementById('aj_riel').value   = ajustes.riel;
+    document.getElementById('aj_pierna').value = ajustes.pierna;
+    document.getElementById('aj_zoc2').value   = ajustes.zoc2;
+    document.getElementById('aj_zoc3').value   = ajustes.zoc3;
+    document.getElementById('aj_zoc4').value   = ajustes.zoc4;
+    actualizarLabelsAjustes();
+    document.getElementById('modalAjustes').style.display = 'block';
+  }
+
+  function cerrarAjustes() {
+    document.getElementById('modalAjustes').style.display = 'none';
+  }
+
+  function actualizarLabelsAjustes() {
+    document.getElementById('lbl_riel').textContent   = ajustes.riel;
+    document.getElementById('lbl_pierna').textContent = ajustes.pierna;
+    document.getElementById('lbl_zoc2').textContent   = ajustes.zoc2;
+    document.getElementById('lbl_zoc3').textContent   = ajustes.zoc3;
+    document.getElementById('lbl_zoc4').textContent   = ajustes.zoc4;
+  }
+
+  function guardarAjustes() {
+    var r  = parseInt(document.getElementById('aj_riel').value);
+    var p  = parseInt(document.getElementById('aj_pierna').value);
+    var z2 = parseInt(document.getElementById('aj_zoc2').value);
+    var z3 = parseInt(document.getElementById('aj_zoc3').value);
+    var z4 = parseInt(document.getElementById('aj_zoc4').value);
+
+    if (isNaN(r) || isNaN(p) || isNaN(z2) || isNaN(z3) || isNaN(z4)) {
+      alert('Por favor ingresa valores válidos en todos los campos.');
+      return;
+    }
+
+    ajustes = { riel: r, pierna: p, zoc2: z2, zoc3: z3, zoc4: z4 };
+    localStorage.setItem('ou_ajustes', JSON.stringify(ajustes));
+    actualizarLabelsAjustes();
+    cerrarAjustes();
+  }
+
+  function resetearAjustes() {
+    ajustes = JSON.parse(JSON.stringify(DEFAULTS_AJUSTES));
+    localStorage.setItem('ou_ajustes', JSON.stringify(ajustes));
+    document.getElementById('aj_riel').value   = ajustes.riel;
+    document.getElementById('aj_pierna').value = ajustes.pierna;
+    document.getElementById('aj_zoc2').value   = ajustes.zoc2;
+    document.getElementById('aj_zoc3').value   = ajustes.zoc3;
+    document.getElementById('aj_zoc4').value   = ajustes.zoc4;
+    actualizarLabelsAjustes();
+  }
+
+  function goToScreen(n) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    const target = document.getElementById('screen' + n);
+    if (!target) return;
+    target.classList.add('active');
+    if (n !== 3) {
+      const res = document.getElementById('resultados');
+      const err = document.getElementById('errorMsg');
+      const ancho = document.getElementById('inputAncho');
+      const alto = document.getElementById('inputAlto');
+      const btnP = document.getElementById('btnIrPrecio');
+      if (res) res.classList.remove('visible');
+      if (err) err.classList.remove('visible');
+      if (ancho) ancho.value = '';
+      if (alto) alto.value = '';
+      if (btnP) btnP.style.display = 'none';
+    }
+    window.scrollTo(0, 0);
+  }
+
+  function goToScreen2(linea) {
+    lineaActual = linea;
+    document.getElementById('lineaSeleccionada').textContent = linea === 'linea25' ? 'Línea 25' : 'Línea 20';
+    goToScreen(2);
+  }
+
+  function goToScreen3(hojas) {
+    hojasActual = hojas;
+    const lineaNombre = lineaActual === 'linea25' ? 'Línea 25' : 'Línea 20';
+    document.getElementById('infoCalculo').textContent = lineaNombre + ' · ' + hojas + ' Hojas';
+    goToScreen(3);
+  }
+
+  function goToScreen4() {
+    const lineaNombre = lineaActual === 'linea25' ? 'Línea 25' : 'Línea 20';
+    document.getElementById('infoPrecio4').textContent = lineaNombre + ' · ' + hojasActual + ' Hojas';
+    document.getElementById('dimsPrecio4').textContent =
+      ultimoCalculo.ancho + ' × ' + ultimoCalculo.alto + ' mm';
+
+    // Limpiar selección previa
+    precioSeleccionado = null;
+    precioSeleccionadoLabel = '';
+    document.getElementById('inputPrecioCustom').value = '';
+    document.getElementById('previewCard').style.display = 'none';
+    document.getElementById('errorPrecio4').classList.remove('visible');
+    limpiarSeleccionCards();
+
+    // Mostrar precios calculados para todas las hojas
+    document.getElementById('preciosCalculados').style.display = 'flex';
+    document.getElementById('preciosCalculados').style.flexDirection = 'column';
+    document.getElementById('preciosPendiente').style.display = 'none';
+    document.getElementById('card_val_p10').textContent = preciosCalculados.p10;
+    document.getElementById('card_val_p11').textContent = preciosCalculados.p11;
+    document.getElementById('card_val_p12').textContent = preciosCalculados.p12;
+    document.getElementById('card_val_p13').textContent = preciosCalculados.p13;
+
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById('screen4').classList.add('active');
+    window.scrollTo(0, 0);
+  }
+
+  function calcular() {
+    const ancho = parseInt(document.getElementById('inputAncho').value);
+    const alto = parseInt(document.getElementById('inputAlto').value);
+    const errorMsg = document.getElementById('errorMsg');
+    const resultados = document.getElementById('resultados');
+
+    if (!ancho || !alto || ancho <= 0 || alto <= 0) {
+      errorMsg.classList.add('visible');
+      resultados.classList.remove('visible');
+      return;
+    }
+
+    errorMsg.classList.remove('visible');
+
+    const riel = ancho - ajustes.riel;
+    const jamba = alto;
+    const pierna = alto - ajustes.pierna;
+    const gancho = alto - ajustes.pierna;
+
+    let zocalo, cabezal, qtyPierna, qtyGancho, qtyZocalo, qtyCabezal, qtyVidrio;
+
+    if (hojasActual === 2) {
+      zocalo = Math.round((ancho + ajustes.zoc2) / 2);
+      cabezal = Math.round((ancho + ajustes.zoc2) / 2);
+      qtyPierna = 2; qtyGancho = 2;
+      qtyZocalo = 2; qtyCabezal = 2; qtyVidrio = 2;
+    } else if (hojasActual === 3) {
+      zocalo = Math.round((ancho + ajustes.zoc3) / 3);
+      cabezal = Math.round((ancho + ajustes.zoc3) / 3);
+      qtyPierna = 2; qtyGancho = 4;
+      qtyZocalo = 3; qtyCabezal = 3; qtyVidrio = 3;
+    } else if (hojasActual === 4) {
+      zocalo = Math.round((ancho + ajustes.zoc4) / 4);
+      cabezal = Math.round((ancho + ajustes.zoc4) / 4);
+      qtyPierna = 4; qtyGancho = 4;
+      qtyZocalo = 4; qtyCabezal = 4; qtyVidrio = 4;
+    }
+
+    var vidrio_ancho = null, vidrio_alto = null;
+    if (hojasActual === 2) {
+      vidrio_ancho = Math.round((ancho / 2) - 66);
+      vidrio_alto = alto - 127;
+    }
+
+    ultimoCalculo = { ancho, alto, riel, jamba, pierna, gancho, zocalo, cabezal,
+      qtyPierna, qtyGancho, qtyZocalo, qtyCabezal, qtyVidrio,
+      vidrio_ancho: vidrio_ancho, vidrio_alto: vidrio_alto };
+
+    document.getElementById('qty_pierna').textContent = '× ' + qtyPierna + ' piezas';
+    document.getElementById('qty_gancho').textContent = '× ' + qtyGancho + ' piezas';
+    document.getElementById('qty_zocalo').textContent = '× ' + qtyZocalo + ' piezas';
+    document.getElementById('qty_cabezal').textContent = '× ' + qtyCabezal + ' piezas';
+    document.getElementById('qty_vidrio').textContent = '× ' + qtyVidrio + ' piezas';
+
+    var vidEl = document.getElementById('vidrio_medida');
+    if (vidrio_ancho !== null) {
+      vidEl.textContent = vidrio_ancho + ' × ' + vidrio_alto + ' mm';
+      vidEl.style.color = '#4fc3f7';
+      vidEl.style.fontSize = '1.1rem';
+    } else {
+      vidEl.textContent = 'Pendiente';
+      vidEl.style.color = '#9fa8da';
+      vidEl.style.fontSize = '0.85rem';
+    }
+
+    const anchoCm = Math.round(ancho / 10);
+    const altoCm = Math.round(alto / 10);
+    const area = anchoCm * altoCm;
+    const base = area * 45;
+
+    function formatPrecio(n) {
+      const resultado = Math.floor(n / 10000);
+      return '$' + resultado.toLocaleString('es-CO');
+    }
+
+    preciosCalculados.p10 = formatPrecio(base * 10);
+    preciosCalculados.p11 = formatPrecio(base * 11);
+    preciosCalculados.p12 = formatPrecio(base * 12);
+    preciosCalculados.p13 = formatPrecio(base * 13);
+    document.getElementById('precio10').textContent = preciosCalculados.p10;
+    document.getElementById('precio11').textContent = preciosCalculados.p11;
+    document.getElementById('precio12').textContent = preciosCalculados.p12;
+    document.getElementById('precio13').textContent = preciosCalculados.p13;
+
+    document.getElementById('riel_sup').textContent = riel + ' mm';
+    document.getElementById('jamba').textContent = jamba + ' mm';
+    document.getElementById('pierna').textContent = pierna + ' mm';
+    document.getElementById('gancho').textContent = gancho + ' mm';
+    document.getElementById('zocalo').textContent = zocalo + ' mm';
+    document.getElementById('cabezal').textContent = cabezal + ' mm';
+
+    resultados.classList.add('visible');
+    resultados.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+    document.getElementById('btnIrPrecio').style.display = 'block';
+
+    // Guardar en historial
+    var piezasHistorial = [
+      { nombre: 'Riel Sup/Inf', medida: riel,   qty: 2 },
+      { nombre: 'Jamba',        medida: jamba,   qty: 2 },
+      { nombre: 'Pierna',       medida: pierna,  qty: qtyPierna },
+      { nombre: 'Gancho',       medida: gancho,  qty: qtyGancho },
+      { nombre: 'Zócalo',       medida: zocalo,  qty: qtyZocalo },
+      { nombre: 'Cabezal',      medida: cabezal, qty: qtyCabezal }
+    ];
+    if (vidrio_ancho !== null) {
+      piezasHistorial.push({ nombre: 'Vidrio', medida: vidrio_ancho + ' × ' + vidrio_alto, qty: qtyVidrio });
+    }
+    var lineaNombre = lineaActual === 'linea25' ? 'Línea 25' : 'Línea 20';
+    var ahora = new Date();
+    guardarEnHistorial({
+      linea: lineaNombre,
+      hojas: hojasActual,
+      ancho: ancho,
+      alto: alto,
+      fecha: ahora.toLocaleDateString('es') + ' ' + ahora.toLocaleTimeString('es', { hour: '2-digit', minute: '2-digit' }),
+      piezas: piezasHistorial
+    });
+  }
+
+  // Permitir calcular con Enter
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') {
+      const s3 = document.getElementById('screen3');
+      if (s3.classList.contains('active')) calcular();
+    }
+  });
+
+  /* ---- PANTALLA 4 ---- */
+
+  function limpiarSeleccionCards() {
+    ['p10','p11','p12','p13'].forEach(id => {
+      document.getElementById('card_' + id).classList.remove('selected');
+    });
+    document.getElementById('customWrap').classList.remove('selected');
+  }
+
+  function seleccionarPrecio(id) {
+    limpiarSeleccionCards();
+    document.getElementById('card_' + id).classList.add('selected');
+    document.getElementById('inputPrecioCustom').value = '';
+
+    const labels = { p10: 'Precio × 10', p11: 'Precio × 11', p12: 'Precio × 12', p13: 'Precio × 13' };
+    precioSeleccionado = preciosCalculados[id];
+    precioSeleccionadoLabel = labels[id];
+
+    mostrarPreview(precioSeleccionado, precioSeleccionadoLabel);
+  }
+
+  function usarPrecioCustom() {
+    const val = parseInt(document.getElementById('inputPrecioCustom').value);
+    if (!val || val <= 0) {
+      document.getElementById('errorPrecio4').classList.add('visible');
+      return;
+    }
+    document.getElementById('errorPrecio4').classList.remove('visible');
+    limpiarSeleccionCards();
+    document.getElementById('customWrap').classList.add('selected');
+
+    precioSeleccionado = '$' + val.toLocaleString('es-CO');
+    precioSeleccionadoLabel = 'Precio personalizado';
+
+    mostrarPreview(precioSeleccionado, precioSeleccionadoLabel);
+  }
+
+  function mostrarPreview(valor, label) {
+    document.getElementById('previewPrecioValor').textContent = valor;
+    document.getElementById('previewPrecioLabel').textContent = label;
+    document.getElementById('previewCard').style.display = 'flex';
+  }
+
+  async function descargarImagenFinal() {
+    if (!precioSeleccionado) {
+      document.getElementById('errorPrecio4').classList.add('visible');
+      return;
+    }
+    document.getElementById('errorPrecio4').classList.remove('visible');
+
+    // Llenar plantilla de imagen
+    const lineaNombre = lineaActual === 'linea25' ? 'Línea 25' : 'Línea 20';
+    document.getElementById('img_info').textContent =
+      lineaNombre + ' · ' + hojasActual + ' Hojas · ' +
+      ultimoCalculo.ancho + ' × ' + ultimoCalculo.alto + ' mm';
+
+    document.getElementById('img_qty_pierna').textContent = '× ' + ultimoCalculo.qtyPierna + ' piezas';
+    document.getElementById('img_qty_gancho').textContent = '× ' + ultimoCalculo.qtyGancho + ' piezas';
+    document.getElementById('img_qty_zocalo').textContent = '× ' + ultimoCalculo.qtyZocalo + ' piezas';
+    document.getElementById('img_qty_cabezal').textContent = '× ' + ultimoCalculo.qtyCabezal + ' piezas';
+    document.getElementById('img_precio_final').textContent = precioSeleccionado;
+
+    const btn = document.querySelector('#screen4 .btn-descargar');
+    btn.textContent = '⏳ Generando...';
+    btn.disabled = true;
+
+    // Mover plantilla a posición visible temporalmente para html2canvas
+    const el = document.getElementById('imagenDescarga');
+    el.style.left = '-9999px';
+    el.style.position = 'fixed';
+
+    const canvas = await html2canvas(el, {
+      backgroundColor: '#1a1d27',
+      scale: 2,
+      useCORS: true,
+      width: 420,
+    });
+
+    const link = document.createElement('a');
+    link.download = 'ventana_' + ultimoCalculo.ancho + 'x' + ultimoCalculo.alto + '.png';
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+
+    btn.textContent = '📷 Descargar imagen';
+    btn.disabled = false;
+  }
+
+  const BARRA_MM = 5950; // 5.95 metros en mm
+  const DISCO_MM = 3;    // corte del disco
+
+  let ventanasOpt = [];
+
+  function agregarVentanaOpt() {
+    const ancho = parseInt(document.getElementById('optAncho').value);
+    const alto = parseInt(document.getElementById('optAlto').value);
+    const hojas = parseInt(document.getElementById('optHojas').value);
+    const nombre = document.getElementById('optNombre').value.trim();
+    const err = document.getElementById('errorOpt');
+
+    if (!ancho || !alto || ancho <= 0 || alto <= 0 || !nombre) {
+      err.classList.add('visible');
+      return;
+    }
+    err.classList.remove('visible');
+
+    ventanasOpt.push({ ancho, alto, hojas, nombre });
+
+    document.getElementById('optAncho').value = '';
+    document.getElementById('optAlto').value = '';
+    document.getElementById('optNombre').value = '';
+    document.getElementById('optResultado').style.display = 'none';
+
+    renderVentanasOpt();
+  }
+
+  function eliminarVentanaOpt(idx) {
+    ventanasOpt.splice(idx, 1);
+    document.getElementById('optResultado').style.display = 'none';
+    renderVentanasOpt();
+  }
+
+  function renderVentanasOpt() {
+    const lista = document.getElementById('listaVentanas');
+    lista.innerHTML = '';
+
+    ventanasOpt.forEach((v, i) => {
+      const div = document.createElement('div');
+      div.className = 'ventana-tag';
+      div.innerHTML = `
+        <div class="vt-info">
+          <span class="vt-dims">${v.nombre} · ${v.ancho} × ${v.alto} mm</span>
+          <span class="vt-sub">${v.hojas} Hojas</span>
+        </div>
+        <button class="vt-del" onclick="eliminarVentanaOpt(${i})">✕</button>
+      `;
+      lista.appendChild(div);
+    });
+
+    const mostrar = ventanasOpt.length > 0;
+    document.getElementById('btnOptimizar').style.display = mostrar ? 'block' : 'none';
+    document.getElementById('btnLimpiarOpt').style.display = mostrar ? 'block' : 'none';
+  }
+
+  function limpiarOptimizador() {
+    ventanasOpt = [];
+    document.getElementById('listaVentanas').innerHTML = '';
+    document.getElementById('optResultado').style.display = 'none';
+    document.getElementById('btnOptimizar').style.display = 'none';
+    document.getElementById('btnLimpiarOpt').style.display = 'none';
+  }
+
+  function optimizarBarras() {
+    if (ventanasOpt.length === 0) return;
+
+    const COLORES = [
+      '#4fc3f7','#69f0ae','#ffb74d','#f48fb1','#ce93d8',
+      '#80cbc4','#fff176','#ef9a9a','#90caf9','#a5d6a7'
+    ];
+
+    // Asignar un color fijo por nombre de ventana
+    var colorPorNombre = {};
+    ventanasOpt.forEach(function(v, i) {
+      if (!colorPorNombre[v.nombre]) {
+        colorPorNombre[v.nombre] = COLORES[Object.keys(colorPorNombre).length % COLORES.length];
+      }
+    });
+
+    var perfiles = {
+      'Riel Sup/Inf': [], 'Jamba': [], 'Pierna': [],
+      'Gancho': [], 'Zócalo': [], 'Cabezal': []
+    };
+
+    ventanasOpt.forEach(function(v) {
+      var ancho = v.ancho, alto = v.alto, hojas = v.hojas, nombre = v.nombre;
+      var riel   = ancho - ajustes.riel;
+      var jamba  = alto;
+      var pierna = alto - ajustes.pierna;
+      var gancho = alto - ajustes.pierna;
+      var zocalo, cabezal, qtyRiel, qtyJamba, qtyPierna, qtyGancho, qtyZocalo, qtyCabezal;
+
+      if (hojas === 2) {
+        zocalo = Math.round((ancho + ajustes.zoc2) / 2); cabezal = Math.round((ancho + ajustes.zoc2) / 2);
+        qtyRiel=2; qtyJamba=2; qtyPierna=2; qtyGancho=2; qtyZocalo=2; qtyCabezal=2;
+      } else if (hojas === 3) {
+        zocalo = Math.round((ancho + ajustes.zoc3) / 3); cabezal = Math.round((ancho + ajustes.zoc3) / 3);
+        qtyRiel=2; qtyJamba=2; qtyPierna=2; qtyGancho=4; qtyZocalo=3; qtyCabezal=3;
+      } else {
+        zocalo = Math.round((ancho + ajustes.zoc4) / 4); cabezal = Math.round((ancho + ajustes.zoc4) / 4);
+        qtyRiel=2; qtyJamba=2; qtyPierna=4; qtyGancho=4; qtyZocalo=4; qtyCabezal=4;
+      }
+
+      var qtys = [qtyRiel, qtyJamba, qtyPierna, qtyGancho, qtyZocalo, qtyCabezal];
+      var medidas = [riel, jamba, pierna, gancho, zocalo, cabezal];
+      var keys = ['Riel Sup/Inf','Jamba','Pierna','Gancho','Zócalo','Cabezal'];
+      for (var k = 0; k < keys.length; k++) {
+        for (var i = 0; i < qtys[k]; i++) {
+          perfiles[keys[k]].push({ medida: medidas[k], nombre: nombre });
+        }
+      }
+    });
+
+    var wrap = document.getElementById('optResultadoItems');
+    wrap.innerHTML = '';
+
+    // Leyenda de colores por ventana
+    var leyenda = document.createElement('div');
+    leyenda.style.cssText = 'display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;padding:10px;background:#22263a;border-radius:10px;border:1px solid #2e3352;';
+    var leyendaTitulo = document.createElement('div');
+    leyendaTitulo.style.cssText = 'width:100%;font-size:0.7rem;color:#9fa8da;letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;';
+    leyendaTitulo.textContent = 'Ventanas';
+    leyenda.appendChild(leyendaTitulo);
+    Object.keys(colorPorNombre).forEach(function(nombre) {
+      var color = colorPorNombre[nombre];
+      var tag = document.createElement('span');
+      tag.style.cssText = 'font-size:0.72rem;padding:4px 10px;border-radius:20px;font-weight:700;';
+      tag.style.background = color + '22';
+      tag.style.border = '1px solid ' + color;
+      tag.style.color = color;
+      tag.textContent = nombre;
+      leyenda.appendChild(tag);
+    });
+    wrap.appendChild(leyenda);
+
+    Object.keys(perfiles).forEach(function(perfil) {
+      var cortes = perfiles[perfil].slice().sort(function(a,b){ return b.medida - a.medida; });
+      if (cortes.length === 0) return;
+
+      var barras = [];
+      cortes.forEach(function(corte) {
+        var conDisco = corte.medida + DISCO_MM;
+        var colocado = false;
+        for (var b = 0; b < barras.length; b++) {
+          if (barras[b].restante >= conDisco) {
+            barras[b].restante -= conDisco;
+            barras[b].piezas.push(corte);
+            colocado = true;
+            break;
+          }
+        }
+        if (!colocado) {
+          barras.push({ restante: BARRA_MM - conDisco, piezas: [corte] });
+        }
+      });
+
+      var seccion = document.createElement('div');
+      seccion.style.cssText = 'margin-bottom:16px;';
+
+      var titulo = document.createElement('div');
+      titulo.style.cssText = 'font-family:Rajdhani,sans-serif;font-size:0.9rem;font-weight:700;color:#ce93d8;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;padding:6px 0;border-bottom:1px solid #2e3352;';
+      titulo.textContent = perfil + ' — ' + barras.length + ' barra' + (barras.length !== 1 ? 's' : '');
+      seccion.appendChild(titulo);
+
+      barras.forEach(function(barra, bi) {
+        var card = document.createElement('div');
+        card.style.cssText = 'background:#22263a;border-radius:10px;padding:12px;margin-bottom:8px;border:1px solid #2e3352;';
+
+        var header = document.createElement('div');
+        header.style.cssText = 'font-size:0.72rem;color:#9fa8da;margin-bottom:8px;letter-spacing:0.5px;';
+        var usado = BARRA_MM - barra.restante;
+        var pct = Math.round((usado / BARRA_MM) * 100);
+        header.textContent = 'Barra ' + (bi+1) + '  ·  Usado: ' + usado + 'mm (' + pct + '%)  ·  Retal: ' + barra.restante + 'mm';
+        card.appendChild(header);
+
+        var barraVis = document.createElement('div');
+        barraVis.style.cssText = 'display:flex;height:28px;border-radius:6px;overflow:hidden;margin-bottom:8px;gap:1px;background:#0f1117;';
+
+        barra.piezas.forEach(function(pieza) {
+          var seg = document.createElement('div');
+          var pct_seg = ((pieza.medida + DISCO_MM) / BARRA_MM) * 100;
+          var color = colorPorNombre[pieza.nombre];
+          seg.style.cssText = 'height:100%;display:flex;align-items:center;justify-content:center;font-size:0.6rem;font-weight:700;color:#0f1117;overflow:hidden;white-space:nowrap;padding:0 2px;';
+          seg.style.width = pct_seg + '%';
+          seg.style.background = color;
+          seg.title = pieza.medida + 'mm [' + pieza.nombre + ']';
+          if (pct_seg > 6) seg.textContent = pieza.nombre;
+          barraVis.appendChild(seg);
+        });
+
+        var retal = document.createElement('div');
+        var pct_retal = (barra.restante / BARRA_MM) * 100;
+        retal.style.cssText = 'height:100%;background:#1a1d27;border:1px dashed #2e3352;display:flex;align-items:center;justify-content:center;font-size:0.58rem;color:#3a3f5c;';
+        retal.style.width = pct_retal + '%';
+        if (pct_retal > 5) retal.textContent = barra.restante + 'mm';
+        barraVis.appendChild(retal);
+        card.appendChild(barraVis);
+
+        var lista = document.createElement('div');
+        lista.style.cssText = 'display:flex;flex-wrap:wrap;gap:4px;margin-top:4px;';
+        barra.piezas.forEach(function(pieza) {
+          var tag = document.createElement('span');
+          var color = colorPorNombre[pieza.nombre];
+          tag.style.cssText = 'font-size:0.68rem;padding:3px 7px;border-radius:20px;font-weight:600;';
+          tag.style.background = color + '22';
+          tag.style.border = '1px solid ' + color + '88';
+          tag.style.color = color;
+          tag.textContent = pieza.medida + 'mm [' + pieza.nombre + ']';
+          lista.appendChild(tag);
+        });
+        card.appendChild(lista);
+        seccion.appendChild(card);
+      });
+
+      wrap.appendChild(seccion);
+    });
+
+    document.getElementById('optResultado').style.display = 'flex';
+    document.getElementById('optResultado').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  // ===================== TEMPLADO VENTANAS =====================
+
+  var DEFAULTS_AJUSTES_TEMP = { fijoH: 65, corriH: 25, corriA: 40, tt: 4 };
+  var ajustesTemp = JSON.parse(JSON.stringify(DEFAULTS_AJUSTES_TEMP));
+
+  (function cargarAjustesTemp() {
+    var saved = localStorage.getItem('ou_ajustesTemp');
+    if (saved) { try { ajustesTemp = JSON.parse(saved); } catch(e) {} }
+  })();
+
+  function abrirAjustesTemp() {
+    document.getElementById('ajTempFijoH').value  = ajustesTemp.fijoH;
+    document.getElementById('ajTempCorriH').value = ajustesTemp.corriH;
+    document.getElementById('ajTempCorriA').value = ajustesTemp.corriA;
+    document.getElementById('ajTempTT').value     = ajustesTemp.tt;
+    document.getElementById('lblTempFijoH').textContent  = ajustesTemp.fijoH;
+    document.getElementById('lblTempCorriH').textContent = ajustesTemp.corriH;
+    document.getElementById('lblTempCorriA').textContent = ajustesTemp.corriA;
+    document.getElementById('lblTempTT').textContent     = ajustesTemp.tt;
+    document.getElementById('modalAjustesTemp').style.display = 'block';
+  }
+
+  function cerrarAjustesTemp() {
+    document.getElementById('modalAjustesTemp').style.display = 'none';
+  }
+
+  function guardarAjustesTemp() {
+    var fH = parseInt(document.getElementById('ajTempFijoH').value);
+    var cH = parseInt(document.getElementById('ajTempCorriH').value);
+    var cA = parseInt(document.getElementById('ajTempCorriA').value);
+    var tt = parseInt(document.getElementById('ajTempTT').value);
+    if (isNaN(fH) || isNaN(cH) || isNaN(cA) || isNaN(tt)) { alert('Por favor ingresa valores válidos.'); return; }
+    ajustesTemp = { fijoH: fH, corriH: cH, corriA: cA, tt: tt };
+    localStorage.setItem('ou_ajustesTemp', JSON.stringify(ajustesTemp));
+    document.getElementById('lblTempFijoH').textContent  = fH;
+    document.getElementById('lblTempCorriH').textContent = cH;
+    document.getElementById('lblTempCorriA').textContent = cA;
+    document.getElementById('lblTempTT').textContent     = tt;
+    cerrarAjustesTemp();
+  }
+
+  function resetearAjustesTemp() {
+    ajustesTemp = JSON.parse(JSON.stringify(DEFAULTS_AJUSTES_TEMP));
+    localStorage.setItem('ou_ajustesTemp', JSON.stringify(ajustesTemp));
+    document.getElementById('ajTempFijoH').value  = ajustesTemp.fijoH;
+    document.getElementById('ajTempCorriH').value = ajustesTemp.corriH;
+    document.getElementById('ajTempCorriA').value = ajustesTemp.corriA;
+    document.getElementById('ajTempTT').value     = ajustesTemp.tt;
+    document.getElementById('lblTempFijoH').textContent  = ajustesTemp.fijoH;
+    document.getElementById('lblTempCorriH').textContent = ajustesTemp.corriH;
+    document.getElementById('lblTempCorriA').textContent = ajustesTemp.corriA;
+    document.getElementById('lblTempTT').textContent     = ajustesTemp.tt;
+  }
+
+  var ventanasTempOpt = [];
+
+  function agregarVentanaTemp() {
+    var ancho  = parseInt(document.getElementById('tempOptAncho').value);
+    var alto   = parseInt(document.getElementById('tempOptAlto').value);
+    var hojas  = parseInt(document.getElementById('tempOptHojas').value);
+    var nombre = document.getElementById('tempOptNombre').value.trim();
+    var err    = document.getElementById('errorTempOpt');
+    if (!ancho || !alto || ancho <= 0 || alto <= 0 || !nombre) { err.classList.add('visible'); return; }
+    err.classList.remove('visible');
+    ventanasTempOpt.push({ ancho: ancho, alto: alto, hojas: hojas, nombre: nombre });
+    document.getElementById('tempOptAncho').value  = '';
+    document.getElementById('tempOptAlto').value   = '';
+    document.getElementById('tempOptNombre').value = '';
+    document.getElementById('optResultadoTemp').style.display = 'none';
+    renderVentanasTempOpt();
+  }
+
+  function renderVentanasTempOpt() {
+    var lista = document.getElementById('listaTempOpt');
+    lista.innerHTML = '';
+    ventanasTempOpt.forEach(function(v, i) {
+      var div = document.createElement('div');
+      div.className = 'ventana-tag';
+      div.innerHTML = '<div class="vt-info"><span class="vt-dims">' + v.nombre + ' · ' + v.ancho + ' × ' + v.alto + ' mm · ' + v.hojas + 'H</span></div>' +
+        '<button class="vt-del" onclick="eliminarVentanaTempOpt(' + i + ')">✕</button>';
+      lista.appendChild(div);
+    });
+    var mostrar = ventanasTempOpt.length > 0;
+    document.getElementById('btnOptimizarTemp').style.display = mostrar ? 'block' : 'none';
+    document.getElementById('btnLimpiarTemp').style.display   = mostrar ? 'block' : 'none';
+  }
+
+  function eliminarVentanaTempOpt(idx) {
+    ventanasTempOpt.splice(idx, 1);
+    document.getElementById('optResultadoTemp').style.display = 'none';
+    renderVentanasTempOpt();
+  }
+
+  function limpiarTempOpt() {
+    ventanasTempOpt = [];
+    document.getElementById('listaTempOpt').innerHTML = '';
+    document.getElementById('optResultadoTemp').style.display = 'none';
+    document.getElementById('btnOptimizarTemp').style.display = 'none';
+    document.getElementById('btnLimpiarTemp').style.display   = 'none';
+  }
+
+  function optimizarBarrasTemp() {
+    if (ventanasTempOpt.length === 0) return;
+
+    var COLORES = ['#ffb74d','#69f0ae','#4fc3f7','#f48fb1','#ce93d8','#80cbc4','#fff176','#ef9a9a','#90caf9','#a5d6a7'];
+    var BARRA_MM = 5950;
+    var DISCO_MM = 3;
+
+    var colorPorNombre = {};
+    ventanasTempOpt.forEach(function(v) {
+      if (!colorPorNombre[v.nombre]) {
+        colorPorNombre[v.nombre] = COLORES[Object.keys(colorPorNombre).length % COLORES.length];
+      }
+    });
+
+    var perfiles = { 'Cabezal': [], 'Tapa': [], 'Trillo': [], 'Tapa Trillo': [], 'Canal': [] };
+
+    ventanasTempOpt.forEach(function(v) {
+      var h     = v.hojas;
+      var ancho = v.ancho;
+      var alto  = v.alto;
+      var base  = ancho / h;
+      var tt    = base - ajustesTemp.tt;
+
+      perfiles['Cabezal'].push({ medida: ancho, nombre: v.nombre });
+      perfiles['Tapa'].push(   { medida: ancho, nombre: v.nombre });
+      perfiles['Trillo'].push( { medida: ancho, nombre: v.nombre });
+
+      if (h === 2) {
+        perfiles['Tapa Trillo'].push({ medida: tt, nombre: v.nombre });
+        perfiles['Canal'].push({ medida: alto - ajustesTemp.fijoH,  nombre: v.nombre });
+        perfiles['Canal'].push({ medida: alto - ajustesTemp.corriH, nombre: v.nombre });
+      } else if (h === 3) {
+        perfiles['Tapa Trillo'].push({ medida: tt, nombre: v.nombre });
+        perfiles['Tapa Trillo'].push({ medida: tt, nombre: v.nombre });
+        perfiles['Canal'].push({ medida: alto - ajustesTemp.corriH, nombre: v.nombre });
+        perfiles['Canal'].push({ medida: alto - ajustesTemp.corriH, nombre: v.nombre });
+      } else if (h === 4) {
+        perfiles['Tapa Trillo'].push({ medida: tt, nombre: v.nombre });
+        perfiles['Tapa Trillo'].push({ medida: tt, nombre: v.nombre });
+        perfiles['Canal'].push({ medida: alto - ajustesTemp.fijoH, nombre: v.nombre });
+        perfiles['Canal'].push({ medida: alto - ajustesTemp.fijoH, nombre: v.nombre });
+      }
+    });
+
+    var wrap = document.getElementById('optResultadoItemsTemp');
+    wrap.innerHTML = '';
+
+    // Leyenda
+    var leyenda = document.createElement('div');
+    leyenda.style.cssText = 'display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;padding:10px;background:#22263a;border-radius:10px;border:1px solid #2e3352;';
+    var leyTit = document.createElement('div');
+    leyTit.style.cssText = 'width:100%;font-size:0.7rem;color:#9fa8da;letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;';
+    leyTit.textContent = 'Ventanas';
+    leyenda.appendChild(leyTit);
+    Object.keys(colorPorNombre).forEach(function(nombre) {
+      var color = colorPorNombre[nombre];
+      var tag = document.createElement('span');
+      tag.style.cssText  = 'font-size:0.72rem;padding:4px 10px;border-radius:20px;font-weight:700;';
+      tag.style.background = color + '22';
+      tag.style.border     = '1px solid ' + color;
+      tag.style.color      = color;
+      tag.textContent      = nombre;
+      leyenda.appendChild(tag);
+    });
+    wrap.appendChild(leyenda);
+
+    Object.keys(perfiles).forEach(function(perfil) {
+      var cortes = perfiles[perfil].slice().sort(function(a,b){ return b.medida - a.medida; });
+      if (cortes.length === 0) return;
+
+      var barras = [];
+      cortes.forEach(function(corte) {
+        var conDisco = corte.medida + DISCO_MM;
+        var colocado = false;
+        for (var bi = 0; bi < barras.length; bi++) {
+          if (barras[bi].restante >= conDisco) {
+            barras[bi].restante -= conDisco;
+            barras[bi].piezas.push(corte);
+            colocado = true;
+            break;
+          }
+        }
+        if (!colocado) { barras.push({ restante: BARRA_MM - conDisco, piezas: [corte] }); }
+      });
+
+      var seccion = document.createElement('div');
+      seccion.style.cssText = 'margin-bottom:16px;';
+
+      var titulo = document.createElement('div');
+      titulo.style.cssText = 'font-family:Rajdhani,sans-serif;font-size:0.9rem;font-weight:700;color:#4fc3f7;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;padding:6px 0;border-bottom:1px solid #2e3352;';
+      titulo.textContent = perfil + ' — ' + barras.length + ' barra' + (barras.length !== 1 ? 's' : '');
+      seccion.appendChild(titulo);
+
+      barras.forEach(function(barra, bi) {
+        var card = document.createElement('div');
+        card.style.cssText = 'background:#22263a;border-radius:10px;padding:12px;margin-bottom:8px;border:1px solid #2e3352;';
+
+        var header = document.createElement('div');
+        header.style.cssText = 'font-size:0.72rem;color:#9fa8da;margin-bottom:8px;';
+        var usado = BARRA_MM - barra.restante;
+        header.textContent = 'Barra ' + (bi+1) + '  ·  Usado: ' + usado + 'mm (' + Math.round((usado/BARRA_MM)*100) + '%)  ·  Retal: ' + barra.restante + 'mm';
+        card.appendChild(header);
+
+        var barraVis = document.createElement('div');
+        barraVis.style.cssText = 'display:flex;height:28px;border-radius:6px;overflow:hidden;margin-bottom:8px;gap:1px;background:#0f1117;';
+        barra.piezas.forEach(function(pieza) {
+          var seg   = document.createElement('div');
+          var color = colorPorNombre[pieza.nombre];
+          seg.style.cssText    = 'height:100%;display:flex;align-items:center;justify-content:center;font-size:0.6rem;font-weight:700;color:#0f1117;overflow:hidden;white-space:nowrap;padding:0 2px;';
+          seg.style.width      = (((pieza.medida + DISCO_MM) / BARRA_MM) * 100) + '%';
+          seg.style.background = color;
+          barraVis.appendChild(seg);
+        });
+        card.appendChild(barraVis);
+
+        var lista2 = document.createElement('div');
+        lista2.style.cssText = 'display:flex;flex-wrap:wrap;gap:4px;margin-top:4px;';
+        barra.piezas.forEach(function(pieza) {
+          var tag   = document.createElement('span');
+          var color = colorPorNombre[pieza.nombre];
+          tag.style.cssText    = 'font-size:0.68rem;padding:3px 7px;border-radius:20px;font-weight:600;';
+          tag.style.background = color + '22';
+          tag.style.border     = '1px solid ' + color + '88';
+          tag.style.color      = color;
+          tag.textContent      = pieza.medida + 'mm [' + pieza.nombre + ']';
+          lista2.appendChild(tag);
+        });
+        card.appendChild(lista2);
+        seccion.appendChild(card);
+      });
+
+      wrap.appendChild(seccion);
+    });
+
+    document.getElementById('optResultadoTemp').style.display = 'block';
+    document.getElementById('optResultadoTemp').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  // ===================== TEMPLADO VENTANAS =====================
+
+  var hojasTemplado = 2;
+
+  function goToScreenTempladoOpt() {
+    document.querySelectorAll('.screen').forEach(function(s) { s.classList.remove('active'); });
+    document.getElementById('screenTempladoOpt').classList.add('active');
+    window.scrollTo(0, 0);
+  }
+
+  function goToScreenTempladoVentanas() {
+    document.querySelectorAll('.screen').forEach(function(s) { s.classList.remove('active'); });
+    document.getElementById('screenTempladoVentanas').classList.add('active');
+    window.scrollTo(0, 0);
+  }
+
+  function goToScreenTempladoCalc(hojas) {
+    hojasTemplado = hojas;
+    document.getElementById('infoTemplado').textContent = '🔷 Templado · ' + hojas + ' Hojas';
+    document.getElementById('tempAncho').value = '';
+    document.getElementById('tempAlto').value  = '';
+    document.getElementById('resultadosTemp').classList.remove('visible');
+    document.querySelectorAll('.screen').forEach(function(s) { s.classList.remove('active'); });
+    document.getElementById('screenTempladoCalc').classList.add('active');
+    window.scrollTo(0, 0);
+  }
+
+  function calcularTemplado() {
+    var ancho = parseInt(document.getElementById('tempAncho').value);
+    var alto  = parseInt(document.getElementById('tempAlto').value);
+    var err   = document.getElementById('errorTemp');
+    var res   = document.getElementById('resultadosTemp');
+
+    if (!ancho || !alto || ancho <= 0 || alto <= 0) {
+      err.classList.add('visible');
+      res.classList.remove('visible');
+      return;
+    }
+    err.classList.remove('visible');
+
+    var items = document.getElementById('resultadosTempItems');
+    items.innerHTML = '';
+
+    if (hojasTemplado === 2) {
+      var anchoBase  = ancho / 2;
+      var vidFijoA   = anchoBase;
+      var vidFijoH   = alto - ajustesTemp.fijoH;
+      var vidCorriA  = anchoBase + ajustesTemp.corriA;
+      var vidCorriH  = alto - ajustesTemp.corriH;
+      var tapaTrillo = anchoBase - ajustesTemp.tt;
+      var canalFijo  = alto - ajustesTemp.fijoH;
+      var canalCorri = alto - ajustesTemp.corriH;
+
+      var html = '';
+      html += secHTML('Perfiles (sin descuento)', '#ce93d8');
+      html += itemHTML('Cabezal', ancho + ' mm', '× 1 pieza');
+      html += itemHTML('Tapa',    ancho + ' mm', '× 1 pieza');
+      html += itemHTML('Trillo',  ancho + ' mm', '× 1 pieza');
+      html += secHTML('Vidrio Fijo', '#4fc3f7');
+      html += itemHTML('Ancho', vidFijoA + ' mm', '× 1 pieza');
+      html += itemHTML('Alto',  vidFijoH + ' mm', '× 1 pieza');
+      html += secHTML('Vidrio Corredizo', '#69f0ae');
+      html += itemHTML('Ancho', vidCorriA + ' mm', '× 1 pieza');
+      html += itemHTML('Alto',  vidCorriH + ' mm', '× 1 pieza');
+      html += secHTML('Tapa Trillo', '#ffb74d');
+      html += itemHTML('Tapa Trillo', tapaTrillo + ' mm', '× 1 pieza');
+      html += secHTML('Canal', '#f48fb1');
+      html += itemHTML('Canal Fijo',      canalFijo  + ' mm', '× 1 pieza');
+      html += itemHTML('Canal Corredizo', canalCorri + ' mm', '× 1 pieza');
+      items.innerHTML = html;
+
+    } else if (hojasTemplado === 3) {
+      var anchoBase  = ancho / 3;
+      var vidFijoA   = anchoBase;
+      var vidFijoH   = alto - ajustesTemp.fijoH;
+      var vidCorriA  = anchoBase + ajustesTemp.corriA;
+      var vidCorriH  = alto - ajustesTemp.corriH;
+      var tapaTrillo = anchoBase - ajustesTemp.tt;
+      var canal      = alto - ajustesTemp.corriH;
+
+      var html = '';
+      html += secHTML('Perfiles (sin descuento)', '#ce93d8');
+      html += itemHTML('Cabezal', ancho + ' mm', '× 1 pieza');
+      html += itemHTML('Tapa',    ancho + ' mm', '× 1 pieza');
+      html += itemHTML('Trillo',  ancho + ' mm', '× 1 pieza');
+      html += secHTML('Vidrio Fijo (centro)', '#4fc3f7');
+      html += itemHTML('Ancho', vidFijoA + ' mm', '× 1 pieza');
+      html += itemHTML('Alto',  vidFijoH + ' mm', '× 1 pieza');
+      html += secHTML('Vidrio Corredizo (costados)', '#69f0ae');
+      html += itemHTML('Ancho', vidCorriA + ' mm', '× 2 piezas');
+      html += itemHTML('Alto',  vidCorriH + ' mm', '× 2 piezas');
+      html += secHTML('Tapa Trillo (costados)', '#ffb74d');
+      html += itemHTML('Tapa Trillo', tapaTrillo + ' mm', '× 2 piezas');
+      html += secHTML('Canal (corredizos)', '#f48fb1');
+      html += itemHTML('Canal', canal + ' mm', '× 2 piezas');
+      items.innerHTML = html;
+
+    } else if (hojasTemplado === 4) {
+      var anchoBase  = ancho / 4;
+      var vidFijoA   = anchoBase;
+      var vidFijoH   = alto - ajustesTemp.fijoH;
+      var vidCorriA  = anchoBase + ajustesTemp.corriA;
+      var vidCorriH  = alto - ajustesTemp.corriH;
+      var tapaTrillo = anchoBase - ajustesTemp.tt;
+      var canal      = alto - ajustesTemp.fijoH;
+
+      var html = '';
+      html += secHTML('Perfiles (sin descuento)', '#ce93d8');
+      html += itemHTML('Cabezal', ancho + ' mm', '× 1 pieza');
+      html += itemHTML('Tapa',    ancho + ' mm', '× 1 pieza');
+      html += itemHTML('Trillo',  ancho + ' mm', '× 1 pieza');
+      html += secHTML('Vidrio Fijo (costados)', '#4fc3f7');
+      html += itemHTML('Ancho', vidFijoA + ' mm', '× 2 piezas');
+      html += itemHTML('Alto',  vidFijoH + ' mm', '× 2 piezas');
+      html += secHTML('Vidrio Corredizo (centro)', '#69f0ae');
+      html += itemHTML('Ancho', vidCorriA + ' mm', '× 2 piezas');
+      html += itemHTML('Alto',  vidCorriH + ' mm', '× 2 piezas');
+      html += secHTML('Tapa Trillo (centro)', '#ffb74d');
+      html += itemHTML('Tapa Trillo', tapaTrillo + ' mm', '× 2 piezas');
+      html += secHTML('Canal (fijos)', '#f48fb1');
+      html += itemHTML('Canal', canal + ' mm', '× 2 piezas');
+      items.innerHTML = html;
+    }
+
+    res.classList.add('visible');
+    res.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+    // Guardar en historial
+    var ahora = new Date();
+    var anchoBaseH = ancho / hojasTemplado;
+    var piezasTemp = [
+      { nombre: 'Cabezal', medida: ancho, qty: 1 },
+      { nombre: 'Tapa',    medida: ancho, qty: 1 },
+      { nombre: 'Trillo',  medida: ancho, qty: 1 },
+      { nombre: 'Tapa Trillo', medida: Math.round(anchoBaseH - ajustesTemp.tt), qty: hojasTemplado === 2 ? 1 : 2 },
+      { nombre: 'Vidrio Fijo (ancho)',      medida: Math.round(anchoBaseH), qty: hojasTemplado === 3 ? 1 : (hojasTemplado === 4 ? 2 : 1) },
+      { nombre: 'Vidrio Fijo (alto)',       medida: alto - ajustesTemp.fijoH,  qty: hojasTemplado === 3 ? 1 : (hojasTemplado === 4 ? 2 : 1) },
+      { nombre: 'Vidrio Corredizo (ancho)', medida: Math.round(anchoBaseH + ajustesTemp.corriA), qty: hojasTemplado === 2 ? 1 : 2 },
+      { nombre: 'Vidrio Corredizo (alto)',  medida: alto - ajustesTemp.corriH, qty: hojasTemplado === 2 ? 1 : 2 }
+    ];
+    guardarEnHistorial({
+      linea: 'Templado',
+      hojas: hojasTemplado,
+      ancho: ancho,
+      alto: alto,
+      fecha: ahora.toLocaleDateString('es') + ' ' + ahora.toLocaleTimeString('es', { hour: '2-digit', minute: '2-digit' }),
+      piezas: piezasTemp
+    });
+  }
+
+  function secHTML(titulo, color) {
+    return '<div style="font-family:Rajdhani,sans-serif;font-size:0.7rem;font-weight:700;color:' + color + ';letter-spacing:2px;text-transform:uppercase;margin:12px 0 6px;padding-bottom:6px;border-bottom:1px solid #2e3352;">' + titulo + '</div>';
+  }
+
+  function itemHTML(nombre, medida, cantidad) {
+    return '<div class="resultado-item"><span class="nombre">' + nombre + '</span><div class="right"><div class="medida">' + medida + '</div><div class="cantidad">' + cantidad + '</div></div></div>';
+  }
+
+  // ===================== LÍNEA 35 =====================
+
+  var DEFAULTS_AJUSTES35 = { h: 195, v: 25 };
+  var ajustes35 = JSON.parse(JSON.stringify(DEFAULTS_AJUSTES35));
+
+  (function cargarAjustes35() {
+    var saved = localStorage.getItem('ou_ajustes35');
+    if (saved) { try { ajustes35 = JSON.parse(saved); } catch(e) {} }
+  })();
+
+  function goToScreenLinea35() {
+    document.querySelectorAll('.screen').forEach(function(s) { s.classList.remove('active'); });
+    document.getElementById('screenLinea35').classList.add('active');
+    document.getElementById('resultadosP35').classList.remove('visible');
+    document.getElementById('p35Ancho').value = '';
+    document.getElementById('p35Alto').value = '';
+    window.scrollTo(0, 0);
+  }
+
+  function abrirAjustes35() {
+    document.getElementById('aj35_h').value = ajustes35.h;
+    document.getElementById('aj35_v').value = ajustes35.v;
+    document.getElementById('lbl35_h').textContent = ajustes35.h;
+    document.getElementById('lbl35_v').textContent = ajustes35.v;
+    document.getElementById('modalAjustes35').style.display = 'block';
+  }
+
+  function cerrarAjustes35() {
+    document.getElementById('modalAjustes35').style.display = 'none';
+  }
+
+  function guardarAjustes35() {
+    var h = parseInt(document.getElementById('aj35_h').value);
+    var v = parseInt(document.getElementById('aj35_v').value);
+    if (isNaN(h) || isNaN(v)) { alert('Por favor ingresa valores válidos.'); return; }
+    ajustes35 = { h: h, v: v };
+    localStorage.setItem('ou_ajustes35', JSON.stringify(ajustes35));
+    document.getElementById('lbl35_h').textContent = h;
+    document.getElementById('lbl35_v').textContent = v;
+    cerrarAjustes35();
+  }
+
+  function resetearAjustes35() {
+    ajustes35 = JSON.parse(JSON.stringify(DEFAULTS_AJUSTES35));
+    localStorage.setItem('ou_ajustes35', JSON.stringify(ajustes35));
+    document.getElementById('aj35_h').value = ajustes35.h;
+    document.getElementById('aj35_v').value = ajustes35.v;
+    document.getElementById('lbl35_h').textContent = ajustes35.h;
+    document.getElementById('lbl35_v').textContent = ajustes35.v;
+  }
+
+  function calcularP35() {
+    var ancho = parseInt(document.getElementById('p35Ancho').value);
+    var alto  = parseInt(document.getElementById('p35Alto').value);
+    var err   = document.getElementById('errorP35');
+    var res   = document.getElementById('resultadosP35');
+
+    if (!ancho || !alto || ancho <= 0 || alto <= 0) {
+      err.classList.add('visible');
+      res.classList.remove('visible');
+      return;
+    }
+    err.classList.remove('visible');
+
+    // Marco — medida original sin descuento
+    document.getElementById('p35_marco_v').textContent = alto + ' mm';
+    document.getElementById('p35_marco_h').textContent = ancho + ' mm';
+
+    // Hoja — con descuentos configurables
+    document.getElementById('p35_hoja_v').textContent = (alto  - ajustes35.v) + ' mm';
+    document.getElementById('p35_hoja_h').textContent = (ancho - ajustes35.h) + ' mm';
+
+    res.classList.add('visible');
+    optimizarBarrasP35(ancho, alto);
+    res.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+    var ahora = new Date();
+    guardarEnHistorial({
+      linea: 'Línea 35',
+      hojas: 1,
+      ancho: ancho,
+      alto: alto,
+      fecha: ahora.toLocaleDateString('es') + ' ' + ahora.toLocaleTimeString('es', { hour: '2-digit', minute: '2-digit' }),
+      piezas: [
+        { nombre: 'Marco Vertical',    medida: alto,                qty: 2 },
+        { nombre: 'Marco Horizontal',  medida: ancho,               qty: 1 },
+        { nombre: 'Hoja Vertical',     medida: alto - ajustes35.v,  qty: 2 },
+        { nombre: 'Hoja Horizontal',   medida: ancho - ajustes35.h, qty: 2 }
+      ]
+    });
+  }
+
+  function optimizarBarrasP35(ancho, alto) {
+    var BARRA_MM = 5950;
+    var DISCO_MM = 3;
+
+    var marco_alto  = alto;
+    var marco_ancho = ancho;
+    var hoja_alto   = alto  - ajustes35.v;
+    var hoja_ancho  = ancho - ajustes35.h;
+
+    var perfiles = {
+      'Marco': [
+        { medida: marco_alto,  label: 'Alto '  + marco_alto  + 'mm' },
+        { medida: marco_alto,  label: 'Alto '  + marco_alto  + 'mm' },
+        { medida: marco_ancho, label: 'Ancho ' + marco_ancho + 'mm' }
+      ],
+      'Hoja': [
+        { medida: hoja_alto,  label: 'Alto '  + hoja_alto  + 'mm' },
+        { medida: hoja_alto,  label: 'Alto '  + hoja_alto  + 'mm' },
+        { medida: hoja_ancho, label: 'Ancho ' + hoja_ancho + 'mm' },
+        { medida: hoja_ancho, label: 'Ancho ' + hoja_ancho + 'mm' }
+      ]
+    };
+
+    var colorPerfil = { 'Marco': '#ffb74d', 'Hoja': '#69f0ae' };
+    var wrap = document.getElementById('optResultadoItemsP35');
+    wrap.innerHTML = '';
+
+    Object.keys(perfiles).forEach(function(perfil) {
+      var cortes = perfiles[perfil].slice().sort(function(a,b){ return b.medida - a.medida; });
+      var color  = colorPerfil[perfil];
+      var barras = [];
+
+      cortes.forEach(function(corte) {
+        var conDisco = corte.medida + DISCO_MM;
+        var colocado = false;
+        for (var bi = 0; bi < barras.length; bi++) {
+          if (barras[bi].restante >= conDisco) {
+            barras[bi].restante -= conDisco;
+            barras[bi].piezas.push(corte);
+            colocado = true;
+            break;
+          }
+        }
+        if (!colocado) { barras.push({ restante: BARRA_MM - conDisco, piezas: [corte] }); }
+      });
+
+      var seccion = document.createElement('div');
+      seccion.style.cssText = 'margin-bottom:16px;';
+
+      var titulo = document.createElement('div');
+      titulo.style.cssText = 'font-family:Rajdhani,sans-serif;font-size:0.9rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;padding:6px 0;border-bottom:1px solid #2e3352;';
+      titulo.style.color = color;
+      titulo.textContent = perfil + ' — ' + barras.length + ' barra' + (barras.length !== 1 ? 's' : '');
+      seccion.appendChild(titulo);
+
+      barras.forEach(function(barra, bi) {
+        var card = document.createElement('div');
+        card.style.cssText = 'background:#22263a;border-radius:10px;padding:12px;margin-bottom:8px;border:1px solid #2e3352;';
+
+        var header = document.createElement('div');
+        header.style.cssText = 'font-size:0.72rem;color:#9fa8da;margin-bottom:8px;letter-spacing:0.5px;';
+        var usado = BARRA_MM - barra.restante;
+        var pct   = Math.round((usado / BARRA_MM) * 100);
+        header.textContent = 'Barra ' + (bi+1) + '  ·  Usado: ' + usado + 'mm (' + pct + '%)  ·  Retal: ' + barra.restante + 'mm';
+        card.appendChild(header);
+
+        var barraVis = document.createElement('div');
+        barraVis.style.cssText = 'display:flex;height:28px;border-radius:6px;overflow:hidden;margin-bottom:8px;gap:1px;background:#0f1117;';
+        barra.piezas.forEach(function(pieza) {
+          var seg = document.createElement('div');
+          seg.style.cssText    = 'height:100%;display:flex;align-items:center;justify-content:center;font-size:0.6rem;font-weight:700;color:#0f1117;overflow:hidden;white-space:nowrap;padding:0 2px;';
+          seg.style.width      = (((pieza.medida + DISCO_MM) / BARRA_MM) * 100) + '%';
+          seg.style.background = color;
+          barraVis.appendChild(seg);
+        });
+        card.appendChild(barraVis);
+
+        var lista = document.createElement('div');
+        lista.style.cssText = 'display:flex;flex-wrap:wrap;gap:4px;margin-top:4px;';
+        barra.piezas.forEach(function(pieza) {
+          var tag = document.createElement('span');
+          tag.style.cssText    = 'font-size:0.68rem;padding:3px 7px;border-radius:20px;font-weight:600;';
+          tag.style.background = color + '22';
+          tag.style.border     = '1px solid ' + color + '88';
+          tag.style.color      = color;
+          tag.textContent      = pieza.label;
+          lista.appendChild(tag);
+        });
+        card.appendChild(lista);
+        seccion.appendChild(card);
+      });
+
+      wrap.appendChild(seccion);
+    });
+
+    document.getElementById('optResultadoP35').style.display = 'block';
+  }
+
+  // ===================== HISTORIAL =====================
+
+  var MAX_HISTORIAL = 10;
+
+  function guardarEnHistorial(entrada) {
+    var historial = JSON.parse(localStorage.getItem('ou_historial') || '[]');
+    historial.unshift(entrada); // Agregar al inicio
+    if (historial.length > MAX_HISTORIAL) historial = historial.slice(0, MAX_HISTORIAL);
+    localStorage.setItem('ou_historial', JSON.stringify(historial));
+  }
+
+  function goToScreenHistorial() {
+    var historial = JSON.parse(localStorage.getItem('ou_historial') || '[]');
+    var lista  = document.getElementById('historialLista');
+    var vacio  = document.getElementById('historialVacio');
+    lista.innerHTML = '';
+
+    if (historial.length === 0) {
+      lista.style.display  = 'none';
+      vacio.style.display  = 'block';
+    } else {
+      lista.style.display  = 'flex';
+      vacio.style.display  = 'none';
+
+      historial.forEach(function(h, i) {
+        var card = document.createElement('div');
+        card.style.cssText = 'background:#1a1d27;border:1.5px solid #2e3352;border-radius:12px;padding:14px;';
+
+        // Header
+        var header = '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid #2e3352;">' +
+          '<div>' +
+            '<span style="font-family:Rajdhani,sans-serif;font-size:0.95rem;font-weight:700;color:#4fc3f7;">' + h.linea + ' · ' + h.hojas + 'H</span>' +
+            '<span style="font-size:0.72rem;color:#9fa8da;margin-left:8px;">' + h.ancho + ' × ' + h.alto + ' mm</span>' +
+          '</div>' +
+          '<span style="font-size:0.65rem;color:#5c6bc0;">' + h.fecha + '</span>' +
+        '</div>';
+
+        // Piezas
+        var piezas = '';
+        h.piezas.forEach(function(p) {
+          piezas += '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">' +
+            '<span style="font-size:0.78rem;color:#9fa8da;">' + p.nombre + '</span>' +
+            '<span style="font-family:Rajdhani,sans-serif;font-size:0.82rem;font-weight:700;color:#e8eaf6;">' + p.medida + ' mm <span style="color:#5c6bc0;font-weight:400;">× ' + p.qty + '</span></span>' +
+          '</div>';
+        });
+
+        card.innerHTML = header + piezas;
+        lista.appendChild(card);
+      });
+    }
+
+    document.querySelectorAll('.screen').forEach(function(s) { s.classList.remove('active'); });
+    document.getElementById('screenHistorial').classList.add('active');
+    window.scrollTo(0, 0);
+  }
+
+  window.limpiarHistorial = function() {
+    if (!confirm('¿Limpiar todo el historial?')) return;
+    localStorage.removeItem('ou_historial');
+    goToScreenHistorial();
+  };
+
+
+</script>
+
+<!-- FIREBASE -->
+<script>
+  // ── FIREBASE REST API ──
+  var FB_URL = 'https://atomic-modz1-default-rtdb.firebaseio.com';
+
+  function fbGet(path, cb) {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', FB_URL + path + '.json', true);
+    xhr.onload = function() { try { cb(null, JSON.parse(xhr.responseText)); } catch(e) { cb(e); } };
+    xhr.onerror = function() { cb(new Error('Sin conexión')); };
+    xhr.send();
+  }
+
+  function fbSet(path, data, cb) {
+    var xhr = new XMLHttpRequest();
+    xhr.open('PUT', FB_URL + path + '.json', true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.onload = function() { if (cb) cb(xhr.status >= 400 ? new Error('Error') : null); };
+    xhr.onerror = function() { if (cb) cb(new Error('Sin conexión')); };
+    xhr.send(JSON.stringify(data));
+  }
+
+  function fbUpdate(path, data, cb) {
+    var xhr = new XMLHttpRequest();
+    xhr.open('PATCH', FB_URL + path + '.json', true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.onload = function() { if (cb) cb(null); };
+    xhr.onerror = function() { if (cb) cb(new Error('Sin conexión')); };
+    xhr.send(JSON.stringify(data));
+  }
+
+  // ── Generar o recuperar Device ID ──
+  function getDeviceId() {
+    var id = localStorage.getItem('ou_device_id');
+    if (!id) {
+      id = 'OPT-' + Math.random().toString(36).substr(2,6).toUpperCase()
+             + '-' + Math.random().toString(36).substr(2,6).toUpperCase()
+             + '-' + Date.now().toString(36).toUpperCase();
+      localStorage.setItem('ou_device_id', id);
+    }
+    return id;
+  }
+
+  var DEVICE_ID = getDeviceId();
+
+  // ── Mostrar un estado del login ──
+  function mostrarEstado(estado) {
+    ['loginVerificando','loginNoActivado','loginVencido','loginError'].forEach(function(id) {
+      document.getElementById(id).style.display = 'none';
+    });
+    document.getElementById(estado).style.display = 'block';
+    if (estado === 'loginNoActivado') document.getElementById('loginDeviceIdText').textContent = DEVICE_ID;
+    if (estado === 'loginVencido')    document.getElementById('loginDeviceIdVencido').textContent = DEVICE_ID;
+  }
+
+  // ── Verificar activación ──
+  window.verificarActivacion = function() {
+    mostrarEstado('loginVerificando');
+    fbGet('/dispositivos/' + DEVICE_ID, function(err, data) {
+      if (err) { mostrarEstado('loginError'); return; }
+      if (data === null) {
+        fbSet('/dispositivos/' + DEVICE_ID, {
+          estado: 'pendiente', registrado: new Date().toISOString(), vencimiento: null, nombre: ''
+        });
+        mostrarEstado('loginNoActivado');
+        return;
+      }
+      if (data.estado === 'activo') {
+        var ahora = Date.now();
+        if (data.vencimiento && ahora > data.vencimiento) {
+          fbUpdate('/dispositivos/' + DEVICE_ID, { estado: 'vencido' });
+          mostrarEstado('loginVencido');
+        } else {
+          entrarApp();
+        }
+      } else if (data.estado === 'vencido') {
+        mostrarEstado('loginVencido');
+      } else {
+        mostrarEstado('loginNoActivado');
+      }
+    });
+  };
+
+  function entrarApp() {
+    document.getElementById('screenLogin').style.display = 'none';
+    document.querySelector('.container').style.display = 'block';
+    actualizarBtnPerfil();
+    verificarMensajes();
+  }
+
+  window.copiarDeviceId = function() {
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(DEVICE_ID);
+    } else {
+      var ta = document.createElement('textarea');
+      ta.value = DEVICE_ID;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+    }
+    alert('ID copiado: ' + DEVICE_ID);
+  };
+
+  window.solicitarActivacion = function() {
+    var msg = 'Hola, solicito activar mi cuenta en Optimizer Ultra. Mi ID de dispositivo es: ' + DEVICE_ID;
+    window.open('https://wa.me/59177792606?text=' + encodeURIComponent(msg), '_blank');
+  };
+
+  window.solicitarActualizacion = function() {
+    var nombre = localStorage.getItem('ou_perfil_nombre') || 'Usuario';
+    var msg = 'Hola, solicité la actualización de Optimizer Ultra. Mi ID es: ' + DEVICE_ID + ' — Nombre: ' + nombre;
+    window.open('https://wa.me/59177792606?text=' + encodeURIComponent(msg), '_blank');
+  };
+
+  window.contactarSoporte = function() {
+    var nombre = localStorage.getItem('ou_perfil_nombre') || 'Usuario';
+    var msg = 'Hola, necesito soporte con Optimizer Ultra. Nombre: ' + nombre + ' — ID: ' + DEVICE_ID;
+    window.open('https://wa.me/59177792606?text=' + encodeURIComponent(msg), '_blank');
+  };
+
+  window.informarError = function() {
+    var nombre = localStorage.getItem('ou_perfil_nombre') || 'Usuario';
+    var msg = 'Hola, quiero informar un error en Optimizer Ultra. Nombre: ' + nombre + ' — ID: ' + DEVICE_ID + '\n\nDescripción del error: ';
+    window.open('https://wa.me/59177792606?text=' + encodeURIComponent(msg), '_blank');
+  };
+
+  function goToScreenPerfil() {
+    var nombre = localStorage.getItem('ou_perfil_nombre') || '';
+    var foto   = localStorage.getItem('ou_perfil_foto') || '';
+    document.getElementById('perfilNombreInput').value = nombre;
+    document.getElementById('perfilDeviceId').textContent = DEVICE_ID;
+    if (foto) {
+      document.getElementById('perfilFotoEmoji').style.display = 'none';
+      document.getElementById('perfilFotoImg').style.display = 'block';
+      document.getElementById('perfilFotoImg').src = foto;
+    } else {
+      document.getElementById('perfilFotoEmoji').style.display = 'block';
+      document.getElementById('perfilFotoImg').style.display = 'none';
+    }
+    fbGet('/dispositivos/' + DEVICE_ID, function(err, data) {
+      if (err || !data) return;
+      if (data.dias === 'permanente' || data.vencimiento === null) {
+        document.getElementById('perfilDias').textContent = '♾ Permanente';
+        document.getElementById('perfilVence').textContent = 'Nunca';
+        document.getElementById('perfilEstado').textContent = '🟢 Activo';
+        document.getElementById('perfilEstado').style.color = '#69f0ae';
+      } else if (data.vencimiento) {
+        var ahora = Date.now();
+        var resto = Math.ceil((data.vencimiento - ahora) / (1000 * 60 * 60 * 24));
+        document.getElementById('perfilDias').textContent = resto > 0 ? resto + ' días' : 'Vencido';
+        document.getElementById('perfilDias').style.color = resto <= 5 ? '#ffb74d' : '#4fc3f7';
+        document.getElementById('perfilEstado').textContent = resto > 0 ? '🟢 Activo' : '🔴 Vencido';
+        document.getElementById('perfilEstado').style.color = resto > 0 ? '#69f0ae' : '#ef9a9a';
+        document.getElementById('perfilVence').textContent = new Date(data.vencimiento).toLocaleDateString('es');
+      }
+    });
+    document.querySelectorAll('.screen').forEach(function(s) { s.classList.remove('active'); });
+    document.getElementById('screenPerfil').classList.add('active');
+    window.scrollTo(0, 0);
+  }
+
+  window.guardarPerfil = function() {
+    var nombre = document.getElementById('perfilNombreInput').value.trim();
+    if (!nombre) return;
+    localStorage.setItem('ou_perfil_nombre', nombre);
+    document.getElementById('btnPerfilNombre').textContent = nombre;
+    fbUpdate('/dispositivos/' + DEVICE_ID, { nombreUsuario: nombre });
+    var btn = event.target;
+    btn.style.background = 'linear-gradient(135deg,#2e7d32,#1b5e20)';
+    setTimeout(function() { btn.style.background = 'linear-gradient(135deg,#0288d1,#01579b)'; }, 1500);
+  };
+
+  window.cambiarFoto = function(e) {
+    var file = e.target.files[0];
+    if (!file) return;
+    var reader = new FileReader();
+    reader.onload = function(ev) {
+      localStorage.setItem('ou_perfil_foto', ev.target.result);
+      document.getElementById('perfilFotoEmoji').style.display = 'none';
+      document.getElementById('perfilFotoImg').style.display = 'block';
+      document.getElementById('perfilFotoImg').src = ev.target.result;
+      actualizarBtnPerfil();
+    };
+    reader.readAsDataURL(file);
+  };
+
+  function actualizarBtnPerfil() {
+    var nombre = localStorage.getItem('ou_perfil_nombre') || '';
+    var foto   = localStorage.getItem('ou_perfil_foto') || '';
+    if (nombre) document.getElementById('btnPerfilNombre').textContent = nombre;
+    if (foto)   document.getElementById('btnPerfilFoto').innerHTML = '<img src="' + foto + '" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">';
+  }
+
+  function verificarMensajes() {
+    fbGet('/mensajes', function(err, data) {
+      if (err || !data) return;
+      if (data.actualizacion && data.actualizacion.activo) {
+        var msg = data.actualizacion;
+        if (!msg.deviceId || msg.deviceId === DEVICE_ID || msg.deviceId === 'todos') {
+          document.getElementById('msgActualizacionTitulo').textContent = msg.titulo || 'Actualización disponible';
+          document.getElementById('msgActualizacionCuerpo').textContent = msg.cuerpo || '';
+          document.getElementById('modalActualizacion').style.display = 'flex';
+          return;
+        }
+      }
+      if (data.bienvenida && data.bienvenida.activo) {
+        var msg = data.bienvenida;
+        var yaVisto = localStorage.getItem('ou_msg_bienvenida_' + (msg.id || '1'));
+        if (!yaVisto && (!msg.deviceId || msg.deviceId === DEVICE_ID || msg.deviceId === 'todos')) {
+          document.getElementById('msgBienvenidaTitulo').textContent = msg.titulo || '¡Bienvenido!';
+          document.getElementById('msgBienvenidaCuerpo').textContent = msg.cuerpo || '';
+          document.getElementById('modalBienvenida').style.display = 'flex';
+        }
+      }
+    });
+  }
+
+  window.cerrarBienvenida = function() {
+    document.getElementById('modalBienvenida').style.display = 'none';
+    fbGet('/mensajes/bienvenida', function(err, data) {
+      if (!err && data) localStorage.setItem('ou_msg_bienvenida_' + (data.id || '1'), '1');
+    });
+  };
+
+  document.addEventListener('DOMContentLoaded', function() {
+    document.querySelector('.container').style.display = 'none';
+    verificarActivacion();
+  });
+</script>
+
+</body>
+</html>
